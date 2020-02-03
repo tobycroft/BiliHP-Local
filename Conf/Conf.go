@@ -19,7 +19,7 @@ func LoadConf(section string, key string) string {
 }
 
 func SaveConf(section string, key string, value string) bool {
-	cfg, err := goconfig.LoadConfigFile("../conf.ini")
+	cfg, err := goconfig.LoadConfigFile("conf.ini")
 	if err != nil {
 		return false
 	}
