@@ -10,7 +10,7 @@ func LoadConf(section string, key string) string {
 		return ""
 	}
 
-	value, err := cfg.GetValue("user", "username")
+	value, err := cfg.GetValue(section, key)
 	if err != nil {
 		return ""
 	} else {

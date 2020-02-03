@@ -44,7 +44,7 @@ func SuperCurl(url string, method string, values map[string]interface{}, headers
 			ret["header"] = resp_header
 			ret["statusCode"] = 200
 			fmt.Println("ret:", RET.Ws_succ(typ, 0, ret, echo))
-			Send(conn, RET.Ws_succ(typ, 0, ret, echo))
+			Send(conn, SendObj(typ, ret, echo, values))
 		}
 	} else {
 		req := Net.Request()
