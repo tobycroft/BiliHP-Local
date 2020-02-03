@@ -11,7 +11,7 @@ func main() {
 	username := Conf.LoadConf("user", "username")
 	token := Conf.LoadConf("user", "token")
 	fmt.Println(token)
-	if username != "" {
+	if username != "" && token != "" {
 		Tcp.Create(username, token)
 	} else {
 

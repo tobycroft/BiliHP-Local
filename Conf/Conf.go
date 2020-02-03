@@ -7,9 +7,9 @@ import (
 func LoadConf(section string, key string) string {
 	cfg, err := goconfig.LoadConfigFile("conf.ini")
 	if err != nil {
+		SaveConf(section, key, " ")
 		return ""
 	}
-
 	value, err := cfg.GetValue(section, key)
 	if err != nil {
 		return ""
