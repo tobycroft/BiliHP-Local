@@ -7,7 +7,7 @@ import (
 func LoadConf(section string, key string) string {
 	cfg, err := goconfig.LoadConfigFile("conf.ini")
 	if err != nil {
-		panic(err)
+		return ""
 	}
 
 	value, err := cfg.GetValue("user", "username")
