@@ -3,15 +3,17 @@ package Tcp
 import (
 	"fmt"
 	"main.go/Action/ActionRoute"
+	"main.go/tuuz/RET"
 	"net"
 	"os"
+	"time"
 )
 
-const addr = "127.0.0.1:81"
+const addr = "go.bilihp.com:181"
 
 var Conn = make(map[string]*net.TCPConn)
 
-func Create(username string) {
+func Create(username string, token string) {
 	server := addr
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", server)
 
@@ -22,11 +24,17 @@ func Create(username string) {
 
 	//建立服务器连接
 	Conn[username], err = net.DialTCP("tcp", nil, tcpAddr)
-
+	data := make(map[string]interface{})
+	data["username"] = username
+	data["token"] = token
+	Sender(username, RET.Ws_succ("init", 0, data, "init"))
 	if err != nil {
 		fmt.Println("连接故障……正在重连……")
-		Create(username)
+		time.Sleep(time.Second)
+		Create(username, token)
+	} else {
 		fmt.Println("成功连入服务器！")
+		Handler(username)
 	}
 
 }
@@ -42,6 +50,17 @@ func Sender(username string, message string) {
 	}
 
 }
+
+func Send(conn net.TCPConn, message string) {
+	words := message
+	_, err := conn.Write([]byte(words)) //给服务器发信息
+
+	if err != nil {
+		fmt.Println(conn.RemoteAddr().String(), "服务器反馈")
+		os.Exit(1)
+	}
+}
+
 func Handler(username string) {
 	conn := Conn[username]
 	var temp string
