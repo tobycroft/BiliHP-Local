@@ -16,6 +16,13 @@ func main() {
 	} else {
 
 	}
+	http.HandleFunc("/", HelloWorldHandler)
+	http.HandleFunc("/user/login", UserLoginHandler)
+	err := http.ListenAndServe("0.0.0.0:80", nil)
+
+	if err != nil {
+		fmt.Println("服务器错误")
+	}
 }
 
 func HelloWorldHandler(w http.ResponseWriter, r *http.Request) {
