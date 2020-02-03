@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 	"reflect"
-	"strconv"
 	"strings"
 )
 
@@ -70,18 +69,10 @@ func GetConfig() Config {
 		var key = str[0:index]
 		var value = str[index+1:]
 		//因为Port是int,所以我们这里要将截取的string强转成int
-		if strings.Contains(key, "Port") {
-			var i, err = strconv.Atoi(value)
-			if err != nil {
-				panic(err)
-			}
-			//通过反射将字段设置进去
-			cr.FieldByName(key).Set(reflect.ValueOf(i))
-		} else {
-			//通过反射将字段设置进去
-			fmt.Println(key, value)
-			cr.FieldByName(key).Set(reflect.ValueOf(value))
-		}
+
+		//通过反射将字段设置进去
+		fmt.Println(key, value)
+		cr.FieldByName(key).Set(reflect.ValueOf(value))
 
 	}
 	err = s.Err()
