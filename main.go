@@ -1,11 +1,16 @@
 package main
 
 import (
-	"fmt"
 	"main.go/Conf"
+	"main.go/Tcp"
 )
 
 func main() {
-	fmt.Println(Conf.LoadConf("user", "username"))
+	username := Conf.LoadConf("user", "username")
+	if username != "" {
+		Tcp.Create(username)
+	} else {
+
+	}
 
 }

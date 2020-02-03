@@ -5,7 +5,6 @@ import (
 	"main.go/tuuz/Array"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Log"
-	"main.go/tuuz/Redis"
 	"net/url"
 	"strings"
 )
