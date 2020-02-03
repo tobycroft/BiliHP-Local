@@ -5,6 +5,7 @@ import (
 	"main.go/tuuz/Array"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Log"
+	"main.go/tuuz/Redis"
 	"net/url"
 	"strings"
 )
@@ -218,7 +219,7 @@ func CookieUpdater(new_cookie map[string]interface{}, ident string) {
 	} else {
 		user_cookie_map = Array.Merge(user_cookie_map, new_cookie)
 	}
-	_, err = Redis.Set("__cookie__"+ident, user_cookie_map, 30*86400)
+	//_, err = Redis.Set("__cookie__"+ident, user_cookie_map, 30*86400)
 	if err != nil {
 		fmt.Println(err)
 		Log.Err(err)

@@ -6,10 +6,11 @@ import (
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
 	"net"
+	"os"
 )
 
 func ActionRoute(json string, username string, conn *net.TCPConn) {
-	fmt.Println(username, json)
+	//fmt.Println(username, json)
 	jsons, err := Jsong.TCPJObject(json)
 	if err != nil {
 		fmt.Println("err:", err, json)
@@ -176,6 +177,7 @@ func ActionRoute(json string, username string, conn *net.TCPConn) {
 					break
 
 				default:
+					fmt.Println("undefine-route", typ, ret, echo)
 					break
 
 				}
@@ -197,4 +199,14 @@ func SendObj(typ string, data interface{}, echo string, values interface{}) map[
 	obj["echo"] = echo
 	obj["values"] = values
 	return obj
+}
+
+func Send(conn net.TCPConn, message string) {
+	words := message
+	_, err := conn.Write([]byte(words)) //给服务器发信息
+
+	if err != nil {
+		fmt.Println(conn.RemoteAddr().String(), "服务器反馈")
+		os.Exit(1)
+	}
 }

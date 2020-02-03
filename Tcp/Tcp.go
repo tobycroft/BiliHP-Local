@@ -48,17 +48,6 @@ func Sender(username string, message string) {
 		fmt.Println(conn.RemoteAddr().String(), "服务器反馈")
 		os.Exit(1)
 	}
-
-}
-
-func Send(conn net.TCPConn, message string) {
-	words := message
-	_, err := conn.Write([]byte(words)) //给服务器发信息
-
-	if err != nil {
-		fmt.Println(conn.RemoteAddr().String(), "服务器反馈")
-		os.Exit(1)
-	}
 }
 
 func Handler(username string) {
