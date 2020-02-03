@@ -3,6 +3,7 @@ package ActionRoute
 import (
 	"main.go/tuuz/Array"
 	"main.go/tuuz/Calc"
+	"main.go/tuuz/Jsong"
 	"main.go/tuuz/Net"
 	"main.go/tuuz/RET"
 	"net"
@@ -38,7 +39,7 @@ func SuperCurl(url string, method string, values map[string]interface{}, headers
 			ret := make(map[string]interface{})
 			ret["cookie"] = Net.CookieHandler(resp_header)
 			ret["route"] = route
-			ret["body"] = string(body)
+			ret["body"] = Jsong.Decode(string(body))
 			ret["header"] = resp_header
 			ret["statusCode"] = 200
 			Send(conn, RET.Ws_succ(typ, 0, ret, echo))
@@ -57,7 +58,7 @@ func SuperCurl(url string, method string, values map[string]interface{}, headers
 			ret := make(map[string]interface{})
 			ret["cookie"] = Net.CookieHandler(resp_header)
 			ret["route"] = route
-			ret["body"] = string(body)
+			ret["body"] = Jsong.Decode(string(body))
 			ret["header"] = resp_header
 			ret["statusCode"] = 200
 			Send(conn, RET.Ws_succ(typ, 0, ret, echo))
