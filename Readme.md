@@ -1,4 +1,4 @@
-#BiliBili助手闪电网络版
+# BiliBili助手闪电网络版
 
 助手PC版本，本PC版本
 
