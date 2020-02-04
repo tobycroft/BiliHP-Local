@@ -21,6 +21,7 @@ func main() {
 	}
 	http.HandleFunc("/", index)
 	http.HandleFunc("/login", login)
+	http.HandleFunc("/panel", panel)
 	http.HandleFunc("/writelogin", writelogin)
 	http.HandleFunc("/user/login", UserLoginHandler)
 	// 设置静态目录
@@ -34,23 +35,15 @@ func main() {
 	}
 }
 
-func HelloWorldHandler(w http.ResponseWriter, r *http.Request) {
-	//fmt.Println("r.Method = ", r.Method)
-	//fmt.Println("r.URL = ", r.URL)
-	//fmt.Println("r.Header = ", r.Header)
-	//fmt.Println("r.Body = ", r.Body)
-	//fmt.Fprintf(w, "HelloWorld!")
-}
-
 func index(w http.ResponseWriter, r *http.Request) {
 	username := Conf.LoadConf("user", "username")
 	token := Conf.LoadConf("user", "token")
 	if username == "" || token == "" {
 		url := "/login"
 		http.Redirect(w, r, url, http.StatusFound)
-
 	} else {
-
+		url := "/panel"
+		http.Redirect(w, r, url, http.StatusFound)
 	}
 }
 
@@ -60,7 +53,7 @@ func writelogin(response http.ResponseWriter, request *http.Request) {
 	token := request.PostFormValue("token")
 	Conf.SaveConf("user", "username", username)
 	Conf.SaveConf("user", "token", token)
-	fmt.Fprintf(response, "Login Success")
+	Tcp.Create(username, token)
 }
 
 func UserLoginHandler(response http.ResponseWriter, request *http.Request) {
@@ -82,4 +75,8 @@ func login(w http.ResponseWriter, r *http.Request) {
 		password := r.Form["password"]
 		fmt.Fprintf(w, "username = %s, password = %s", username, password)
 	}
+}
+
+func panel(w http.ResponseWriter, r *http.Request) {
+
 }
