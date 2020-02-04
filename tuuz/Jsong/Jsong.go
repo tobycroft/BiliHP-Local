@@ -62,8 +62,10 @@ func TCPJObject(data string) ([]map[string]interface{}, error) {
 		for i, v := range strs {
 			if i == 0 {
 				v += "}"
-			} else {
+			} else if len(strs) == i+1 {
 				v = "{" + v
+			} else {
+				v = "{" + v + "}"
 			}
 			err := json.Unmarshal([]byte(v), &arr)
 			ret, err := JObject(v)
@@ -94,8 +96,10 @@ func TCPJArray(data string) ([]interface{}, error) {
 		for i, v := range strs {
 			if i == 0 {
 				v += "}"
-			} else {
+			} else if len(strs) == i+1 {
 				v = "{" + v
+			} else {
+				v = "{" + v + "}"
 			}
 			err := json.Unmarshal([]byte(v), &arr)
 			ret, err := JArray(v)

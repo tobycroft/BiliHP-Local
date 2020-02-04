@@ -56,12 +56,14 @@ func Handler(username string) {
 	for {
 		buf := make([]byte, 1460)
 		n, _ := conn.Read(buf)
+		fmt.Println("len:", n)
 		if n == 1460 {
 			temp += string(buf[:n])
 		} else {
 			temp += string(buf[:n])
 			msg := temp
 			temp = ""
+			fmt.Println(msg)
 			ActionRoute.ActionRoute(msg, username, conn)
 		}
 	}

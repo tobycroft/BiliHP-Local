@@ -34,7 +34,6 @@ func main() {
 	if err != nil {
 		fmt.Println("服务器错误")
 	}
-
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
@@ -90,5 +89,23 @@ func login(w http.ResponseWriter, r *http.Request) {
 }
 
 func panel(w http.ResponseWriter, r *http.Request) {
-
+	username := Conf.LoadConf("user", "username")
+	token := Conf.LoadConf("user", "token")
+	if username == "" || token == "" {
+		url := "/login"
+		http.Redirect(w, r, url, http.StatusFound)
+	}
+	r.ParseForm()
+	if r.Method == "GET" {
+		t, err := template.ParseFiles("html/panel.html")
+		if err != nil {
+			fmt.Fprintf(w, "parse template error: %s", err.Error())
+			return
+		}
+		t.Execute(w, nil)
+	} else {
+		username := r.Form["username"]
+		password := r.Form["password"]
+		fmt.Fprintf(w, "username = %s, password = %s", username, password)
+	}
 }
