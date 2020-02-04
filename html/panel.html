@@ -10,72 +10,101 @@
     </style>
 </head>
 <body>
-<div class="layui-form-item">
-    <label class="layui-form-label">开关-默认开</label>
-    <div class="layui-input-block">
-        <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
-    </div>
-</div>
 
 <div class="layui-row">
-    <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-            <legend>普通功能设置</legend>
-        </fieldset>
-
-        <form class="layui-form" action="" lay-filter="common">
+    <form class="layui-form" action="" lay-filter="common">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+                <legend>普通功能设置</legend>
+            </fieldset>
 
 
             <div class="layui-form-item">
                 <label class="layui-form-label">心跳控制：</label>
                 <div class="layui-input-block">
-                    <input type="checkbox" name="like[write]" title="APP心跳">
-                    <input type="checkbox" name="like[read]" title="阅读" checked>
-                    <input type="checkbox" name="like[dai]" title="发呆">
+                    <input type="checkbox" name="app_heart" title="APP心跳">
+                    <input type="checkbox" name="pc_heart" title="PC心跳">
                 </div>
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">开关</label>
+                <label class="layui-form-label">每日签到：</label>
                 <div class="layui-input-block">
-                    <input type="checkbox" name="switch" lay-skin="switch">
+                    <input type="checkbox" name="daily_bag" title="每日签到">
                 </div>
             </div>
+
             <div class="layui-form-item">
-                <label class="layui-form-label">单选框</label>
+                <label class="layui-form-label">银瓜子获取：</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="sex" value="男" title="男">
-                    <input type="radio" name="sex" value="女" title="女" checked>
+                    <input type="checkbox" name="online_silver" title="银瓜子获取">
                 </div>
             </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">文本域</label>
-                <div class="layui-input-block">
-                    <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
-                </div>
-            </div>
+
             <div class="layui-form-item">
+                <label class="layui-form-label">双端观看：</label>
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="common">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <input type="checkbox" name="silver_task" title="双端观看">
                 </div>
             </div>
-        </form>
-    </div>
-    <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-            <legend>礼物功能设置</legend>
-        </fieldset>
-        <div class="grid-demo layui-bg-red">移动：6/12 | 平板：6/12 | 桌面：4/12</div>
-    </div>
-    <div class="layui-col-xs4 layui-col-sm12 layui-col-md4">
-        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-            <legend>其他设置</legend>
-        </fieldset>
-        <div class="grid-demo layui-bg-blue">移动：4/12 | 平板：12/12 | 桌面：4/12</div>
-    </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">主站任务：</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="daily_task" title="主站任务">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">主站任务：</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="silver_to_coin" title="主站任务">
+                </div>
+            </div>
+
+        </div>
+        {{/*-------------------------------------*/}}
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+                <legend>礼物功能设置</legend>
+            </fieldset>
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">抢礼物设定：</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="raffle" title="小电视/大楼/任意门">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">总督/拿督/舰长：</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="guard" title="总督">
+                </div>
+            </div>
+
+        </div>
+
+        {{/*-------------------------------------*/}}
+        <div class="layui-col-xs4 layui-col-sm12 layui-col-md4">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+                <legend>其他设置</legend>
+            </fieldset>
+
+
+        </div>
+{{/*        <div class="layui-form-item">*/}}
+{{/*            <div class="layui-input-block">*/}}
+{{/*                <button class="layui-btn" lay-submit lay-filter="common">立即提交</button>*/}}
+{{/*                <button type="reset" class="layui-btn layui-btn-primary">重置</button>*/}}
+{{/*            </div>*/}}
+{{/*        </div>*/}}
+    </form>
 </div>
-
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="//www.layuicdn.com/layui/layui.js"></script>
 <script>
     layui.use('form', function () {
@@ -84,18 +113,62 @@
         //监听提交
         form.on('submit(common)', function (data) {
             layer.msg(JSON.stringify(data.field));
+            // layer.msg(JSON.stringify(data.field.like));
             return false;
         });
+
+        //监听指定开关
+        form.on('checkbox()', function (data) {
+            $.ajax({
+                //请求方式
+                type: "POST",
+                //请求地址
+                url: "http://localhost/setting_set",
+                //数据，json字符串
+                data: {
+                    "key": this.name,
+                    "value": this.checked ? 1 : 0,
+                },
+                success: function (ret) {
+                    var ret = JSON.parse(ret)
+                    // alert(ret.data);
+                    layer.msg(ret.data, {
+                        offset: '300px'
+                    });
+                }
+            });
+
+            // layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+
+        $.ajax({
+            //请求方式
+            type: "POST",
+            //请求地址
+            url: "http://localhost/setting_get",
+            //数据，json字符串
+            data: {},
+            success: function (ret) {
+                var ret = JSON.parse(ret)
+                var data = ret.data
+                // console.log(ret)
+                var obj = new Object();
+                for (var i in data) {
+                    console.log(i, data[i])
+                    if (data[i] == 0) {
+                        obj[i] = false
+                    } else if (data[i] == 1) {
+                        obj[i] = true
+                    }
+                }
+                console.log(obj)
+                form.val("common", obj);
+            }
+        });
+
+
     });
 
-    form.val("common", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
-        "username": "贤心" // "name": "value"
-        , "sex": "女"
-        , "auth": 3
-        , "check[write]": true
-        , "open": false
-        , "desc": "我爱layui"
-    });
 
 </script>
 </body>

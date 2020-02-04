@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-const addr = "127.0.0.1:81"
+const addr = "go.bilihp.com:181"
 
 var Conn = make(map[string]*net.TCPConn)
 
@@ -62,7 +62,7 @@ func Handler(username string, token string) {
 			Create(username, token)
 			os.Exit(1)
 		}
-		fmt.Println("len:", n, err)
+		//fmt.Println("len:", n, err)
 		if n == 1460 {
 			temp += string(buf[:n])
 		} else {

@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"main.go/Conf"
 	"main.go/Tcp"
+	"main.go/tuuz/Net"
 	"net/http"
 	"os/exec"
 )
@@ -25,6 +26,8 @@ func main() {
 	http.HandleFunc("/panel", panel)
 	http.HandleFunc("/writelogin", writelogin)
 	http.HandleFunc("/user/login", UserLoginHandler)
+	http.HandleFunc("/setting_get", setting_get)
+	http.HandleFunc("/setting_set", setting_set)
 	// 设置静态目录
 	fsh := http.FileServer(http.Dir("./html"))
 	http.Handle("/html/", http.StripPrefix("/html/", fsh))
@@ -108,4 +111,30 @@ func panel(w http.ResponseWriter, r *http.Request) {
 		password := r.Form["password"]
 		fmt.Fprintf(w, "username = %s, password = %s", username, password)
 	}
+}
+
+func setting_get(w http.ResponseWriter, r *http.Request) {
+	username := Conf.LoadConf("user", "username")
+	token := Conf.LoadConf("user", "token")
+	if username == "" || token == "" {
+		url := "/login"
+		http.Redirect(w, r, url, http.StatusFound)
+	}
+	_, ret, _ := Net.Post("http://go.bilihp.com:180/v1/pc/setting/setting_get", map[string]interface{}{"username": username, "token": token}, nil, nil)
+	//fmt.Println(ret.(string))
+	w.Write([]byte(ret.(string)))
+}
+
+func setting_set(w http.ResponseWriter, r *http.Request) {
+	username := Conf.LoadConf("user", "username")
+	token := Conf.LoadConf("user", "token")
+	if username == "" || token == "" {
+		url := "/login"
+		http.Redirect(w, r, url, http.StatusFound)
+	}
+	key := r.PostFormValue("key")
+	value := r.PostFormValue("value")
+	_, ret, _ := Net.Post("http://go.bilihp.com:180/v1/pc/setting/setting_set", map[string]interface{}{"username": username, "token": token, "key": key, "value": value}, nil, nil)
+	//fmt.Println(ret.(string))
+	w.Write([]byte(ret.(string)))
 }
