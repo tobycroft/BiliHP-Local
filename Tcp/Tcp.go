@@ -35,6 +35,7 @@ func Create(username string, token string) {
 		data["username"] = username
 		data["token"] = token
 		Sender(username, token, RET.Ws_succ("init", 0, data, "init"))
+		go Functions(username, token)
 		Handler(username, token)
 	}
 
@@ -50,6 +51,18 @@ func Sender(username string, token string, message string) {
 		Create(username, token)
 		os.Exit(1)
 	}
+}
+
+func Functions(username string, token string) {
+	conn := Conn[username]
+	go yingyuan_sign(*conn)
+	go daily_task(*conn)
+	go silver_task(*conn)
+	go online_silver(*conn)
+	go daily_bag(*conn)
+	go app_heart(*conn)
+	go pc_heart(*conn)
+	ping(*conn)
 }
 
 func Handler(username string, token string) {
@@ -69,7 +82,7 @@ func Handler(username string, token string) {
 			temp += string(buf[:n])
 			msg := temp
 			temp = ""
-
+			//fmt.Println(msg)
 			ActionRoute.ActionRoute(msg, username, conn)
 		}
 	}

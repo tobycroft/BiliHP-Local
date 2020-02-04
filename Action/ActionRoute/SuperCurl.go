@@ -2,6 +2,7 @@ package ActionRoute
 
 import (
 	"fmt"
+	"main.go/Conf"
 	"main.go/tuuz/Array"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
@@ -43,7 +44,9 @@ func SuperCurl(url string, method string, values map[string]interface{}, headers
 			ret["body"] = Jsong.Decode(string(body))
 			ret["header"] = resp_header
 			ret["statusCode"] = 200
-			fmt.Println("ret:", RET.Ws_succ(typ, 0, ret, echo))
+			if Conf.LoadConf("debug", "debug") == "true" {
+				fmt.Println("ret-post:", RET.Ws_succ(typ, 0, ret, echo))
+			}
 			Send(conn, SendObj(typ, ret, echo, values))
 		}
 	} else {
@@ -63,7 +66,9 @@ func SuperCurl(url string, method string, values map[string]interface{}, headers
 			ret["body"] = Jsong.Decode(string(body))
 			ret["header"] = resp_header
 			ret["statusCode"] = 200
-			fmt.Println("ret:", RET.Ws_succ(typ, 0, ret, echo))
+			if Conf.LoadConf("debug", "debug") == "true" {
+				fmt.Println("ret-get:", RET.Ws_succ(typ, 0, ret, echo))
+			}
 			Send(conn, RET.Ws_succ(typ, 0, ret, echo))
 		}
 	}

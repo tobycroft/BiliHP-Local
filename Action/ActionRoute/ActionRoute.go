@@ -199,6 +199,7 @@ func SendObj(typ string, data interface{}, echo string, values interface{}) stri
 
 func Send(conn net.TCPConn, message string) {
 	words := message
+	//fmt.Println(words)
 	_, err := conn.Write([]byte(words)) //给服务器发信息
 
 	if err != nil {

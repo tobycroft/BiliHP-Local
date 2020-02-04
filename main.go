@@ -5,6 +5,8 @@ import (
 	"html/template"
 	"main.go/Conf"
 	"main.go/Tcp"
+	"main.go/tuuz/Calc"
+	"main.go/tuuz/Jsong"
 	"main.go/tuuz/Net"
 	"net/http"
 	"os/exec"
@@ -120,9 +122,23 @@ func setting_get(w http.ResponseWriter, r *http.Request) {
 		url := "/login"
 		http.Redirect(w, r, url, http.StatusFound)
 	}
-	_, ret, _ := Net.Post("http://go.bilihp.com:180/v1/pc/setting/setting_get", map[string]interface{}{"username": username, "token": token}, nil, nil)
+	_, ret, err := Net.Post("http://go.bilihp.com:180/v1/pc/setting/setting_get", map[string]interface{}{"username": username, "token": token}, nil, nil)
 	//fmt.Println(ret.(string))
-	w.Write([]byte(ret.(string)))
+	if err != nil {
+		fmt.Println("setting_get", err)
+	} else {
+		jsr, err := Jsong.JObject(ret.(string))
+		if err != nil {
+			fmt.Println("setting_get", err)
+		} else {
+			jsp, _ := Jsong.ParseObject(jsr["data"])
+			for k, v := range jsp {
+				Conf.SaveConf("setting", Calc.Any2String(k), Calc.Any2String(v))
+			}
+		}
+
+		w.Write([]byte(ret.(string)))
+	}
 }
 
 func setting_set(w http.ResponseWriter, r *http.Request) {
@@ -134,7 +150,13 @@ func setting_set(w http.ResponseWriter, r *http.Request) {
 	}
 	key := r.PostFormValue("key")
 	value := r.PostFormValue("value")
-	_, ret, _ := Net.Post("http://go.bilihp.com:180/v1/pc/setting/setting_set", map[string]interface{}{"username": username, "token": token, "key": key, "value": value}, nil, nil)
+	Conf.SaveConf("setting", Calc.Any2String(key), Calc.Any2String(value))
+	_, ret, err := Net.Post("http://go.bilihp.com:180/v1/pc/setting/setting_set", map[string]interface{}{"username": username, "token": token, "key": key, "value": value}, nil, nil)
 	//fmt.Println(ret.(string))
-	w.Write([]byte(ret.(string)))
+	if err != nil {
+		fmt.Println("setting_set", err)
+	} else {
+		w.Write([]byte(ret.(string)))
+	}
+
 }
