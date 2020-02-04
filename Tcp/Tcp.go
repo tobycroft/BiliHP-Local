@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-const addr = "go.bilihp.com:181"
+const addr = "127.0.0.1:81"
 
 var Conn = make(map[string]*net.TCPConn)
 
@@ -24,46 +24,52 @@ func Create(username string, token string) {
 
 	//建立服务器连接
 	Conn[username], err = net.DialTCP("tcp", nil, tcpAddr)
-	data := make(map[string]interface{})
-	data["username"] = username
-	data["token"] = token
-	Sender(username, RET.Ws_succ("init", 0, data, "init"))
+
 	if err != nil {
 		fmt.Println("连接故障……正在重连……")
 		time.Sleep(time.Second)
 		Create(username, token)
 	} else {
 		fmt.Println("成功连入服务器！")
-		Handler(username)
+		data := make(map[string]interface{})
+		data["username"] = username
+		data["token"] = token
+		Sender(username, token, RET.Ws_succ("init", 0, data, "init"))
+		Handler(username, token)
 	}
 
 }
 
-func Sender(username string, message string) {
+func Sender(username string, token string, message string) {
 	conn := Conn[username]
 	words := message
 	_, err := conn.Write([]byte(words)) //给服务器发信息
 
 	if err != nil {
 		fmt.Println(conn.RemoteAddr().String(), "服务器反馈")
+		Create(username, token)
 		os.Exit(1)
 	}
 }
 
-func Handler(username string) {
+func Handler(username string, token string) {
 	conn := Conn[username]
 	var temp string
 	for {
 		buf := make([]byte, 1460)
-		n, _ := conn.Read(buf)
-		fmt.Println("len:", n)
+		n, err := conn.Read(buf)
+		if err != nil {
+			Create(username, token)
+			os.Exit(1)
+		}
+		fmt.Println("len:", n, err)
 		if n == 1460 {
 			temp += string(buf[:n])
 		} else {
 			temp += string(buf[:n])
 			msg := temp
 			temp = ""
-			fmt.Println(msg)
+
 			ActionRoute.ActionRoute(msg, username, conn)
 		}
 	}
