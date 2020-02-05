@@ -127,7 +127,7 @@ func ActionRoute(json string, username string, conn *net.TCPConn) {
 					var typ = Calc.Any2String(rets["type"])
 					var delay = Calc.Any2Float64(rets["delay"])
 					ecam("", echo, "")
-					Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
+					go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 				}
 				break
 
@@ -157,7 +157,7 @@ func ActionRoute(json string, username string, conn *net.TCPConn) {
 					var typ = Calc.Any2String(rets["type"])
 					var delay = Calc.Any2Float64(rets["delay"])
 					ecam("", echo, "")
-					Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
+					go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 				}
 				break
 
@@ -187,7 +187,7 @@ func ActionRoute(json string, username string, conn *net.TCPConn) {
 					var typ = Calc.Any2String(rets["type"])
 					var delay = Calc.Any2Float64(rets["delay"])
 					ecam("", echo, "")
-					Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
+					go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 				}
 				break
 
@@ -221,6 +221,5 @@ func Send(conn net.TCPConn, message string) {
 
 	if err != nil {
 		fmt.Println(conn.RemoteAddr().String(), "服务器反馈")
-		os.Exit(1)
 	}
 }
