@@ -5,6 +5,7 @@ import (
 	"main.go/Conf"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
+	"main.go/tuuz/RET"
 	"net"
 	"os"
 )
@@ -38,6 +39,14 @@ func ActionRoute(json string, username string, conn *net.TCPConn) {
 
 			case "error":
 				fmt.Println(ret)
+				break
+
+			case "reinit":
+				token := Conf.LoadConf("user", "token")
+				data := make(map[string]interface{})
+				data["username"] = username
+				data["token"] = token
+				Send(*conn, RET.Ws_succ("init", 0, data, "init"))
 				break
 
 			case "debug":
