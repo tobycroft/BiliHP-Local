@@ -16,6 +16,14 @@ func ActionRoute(json string, username string, conn *net.TCPConn) {
 		fmt.Println("err:", err, json)
 	} else {
 		for _, jobject := range jsons {
+			code := Calc.Any2Int(jobject["code"])
+			if code == -1 {
+				ecam("[登录信息]：", "登录信息错误！", "")
+				Conf.SaveConf("user", "username", "")
+				Conf.SaveConf("user", "token", "")
+				os.Exit(1)
+				break
+			}
 			typ := Calc.Any2String(jobject["type"])
 			ret := jobject["data"]
 			echo := Calc.Any2String(jobject["echo"])
