@@ -10,6 +10,8 @@ import (
 	"os"
 )
 
+const Addr = "go.bilihp.com:181"
+
 func ActionRoute(json string, username string, conn *net.TCPConn) {
 	jsons, err := Jsong.TCPJObject(json)
 	if err != nil {
@@ -220,6 +222,16 @@ func Send(conn net.TCPConn, message string) {
 	_, err := conn.Write([]byte(words)) //给服务器发信息
 
 	if err != nil {
-		fmt.Println(conn.RemoteAddr().String(), "服务器反馈")
+		fmt.Println(conn.RemoteAddr().String(), "服务器发送失败，检测到断线，开始重连")
+		Reconnect(&conn)
 	}
+}
+
+func Reconnect(conn *net.TCPConn) {
+	server := Addr
+	tcpAddr, err := net.ResolveTCPAddr("tcp4", server)
+	if err != nil {
+		fmt.Println("重连故障：", err)
+	}
+	conn, err = net.DialTCP("tcp", nil, tcpAddr)
 }

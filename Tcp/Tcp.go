@@ -9,12 +9,10 @@ import (
 	"time"
 )
 
-const addr = "go.bilihp.com:181"
-
 var Conn = make(map[string]*net.TCPConn)
 
 func Create(username string, token string) {
-	server := addr
+	server := ActionRoute.Addr
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", server)
 
 	if err != nil {
@@ -47,7 +45,7 @@ func Sender(username string, token string, message string) {
 	_, err := conn.Write([]byte(words)) //给服务器发信息
 
 	if err != nil {
-		fmt.Println(conn.RemoteAddr().String(), "服务器反馈")
+		fmt.Println(conn.RemoteAddr().String(), "服务器发送失败正在重新建立重连……")
 		Create(username, token)
 		os.Exit(1)
 	}
