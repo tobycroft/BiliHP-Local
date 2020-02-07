@@ -216,14 +216,16 @@ func SendObj(typ string, data interface{}, echo string, values interface{}) stri
 	return ret
 }
 
-func Send(conn net.TCPConn, message string) {
+func Send(conn net.TCPConn, message string) bool {
 	words := message
 	//fmt.Println(words)
 	_, err := conn.Write([]byte(words)) //给服务器发信息
 
 	if err != nil {
 		fmt.Println(conn.RemoteAddr().String(), "服务器发送失败，检测到断线，开始重连")
-		Reconnect(&conn)
+		return false
+	} else {
+		return true
 	}
 }
 
