@@ -9,7 +9,7 @@ import (
 	"main.go/tuuz/Jsong"
 	"main.go/tuuz/Net"
 	"net/http"
-	"os/exec"
+	"time"
 )
 
 func main() {
@@ -22,7 +22,7 @@ func main() {
 	} else {
 
 	}
-	exec.Command(`cmd`, `/c`, `start`, `http://localhost/`).Start()
+	//exec.Command(`cmd`, `/c`, `start`, `http://localhost/`).Start()
 	http.HandleFunc("/", index)
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/panel", panel)
@@ -33,11 +33,18 @@ func main() {
 	// 设置静态目录
 	fsh := http.FileServer(http.Dir("./html"))
 	http.Handle("/html/", http.StripPrefix("/html/", fsh))
-
+	fmt.Println("正在启动程序，请访问http://127.0.0.1")
+	time.Sleep(5 * time.Second)
 	err := http.ListenAndServe("0.0.0.0:80", nil)
 
 	if err != nil {
-		fmt.Println("服务器错误")
+		fmt.Println("80端口被占用，正在使用81端口重试")
+		fmt.Println("正在更换端口并启动程序，请访问http://127.0.0.1:81")
+		time.Sleep(5 * time.Second)
+		err := http.ListenAndServe("0.0.0.0:81", nil)
+		if err != nil {
+			fmt.Println("81端口也被占用……程序自动停止")
+		}
 	}
 }
 
