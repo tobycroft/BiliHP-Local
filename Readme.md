@@ -32,7 +32,38 @@
 如果上一个版本中仍旧有BUG，则下个版本中修复后，再下个版本的三段号中+1，以此类推
 
 
+## 编译版本说明
+Centos，Ubuntu等Linux系统	：BiliHP_Linux_linux
+
+苹果Mac电脑					：BiliHP_Mac_darwin
+
+Openwrt路由器				：BiliHP_Router_linux
+
+Windows32位					：BiliHP_PCWEB_386
+
+Windows64位（一般用这个）	：BiliHP_PCWEB
+
+
+
+Windows版本和linux等新版本均不会弹出浏览器（因为新增路由器版本），请手动访问
+
+http://127.0.0.1
+
+或者
+
+http://localhost
+
+
+如果部署在路由器，请访问：
+
+http://127.0.0.1:81
+
 ### DevLog
+~~~~
+v0.15.v
+1.新增天选之子
+2.新增linux版本mac版本和openwrt路由器版本
+~~~~
 ~~~~
 v0.14.0
 1.上一个版本太强大，导致程序疯狂进入退出，短时间内创造了几万个TCP链接，服务器就出现了Goroutine Map
