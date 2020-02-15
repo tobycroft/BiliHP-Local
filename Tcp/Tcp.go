@@ -60,7 +60,6 @@ func Sender(username string, token string, message string) {
 }
 
 func Functions(username string, token string) {
-	defer wg.Done()
 	conn := Conn[username]
 	go update_setting()
 	go yingyuan_sign(*conn)
