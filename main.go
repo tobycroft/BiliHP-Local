@@ -36,7 +36,9 @@ func main() {
 	fmt.Println("正在启动程序，请访问http://127.0.0.1")
 	time.Sleep(5 * time.Second)
 	err := http.ListenAndServe("0.0.0.0:80", nil)
-
+	if username == "" || token == "" {
+		fmt.Println("你还没有登录，请访问上面的地址进行登录")
+	}
 	if err != nil {
 		fmt.Println("80端口被占用，正在使用81端口重试")
 		fmt.Println("正在更换端口并启动程序，请访问http://127.0.0.1:81")
