@@ -130,9 +130,7 @@ func pc_heart(conn net.TCPConn) {
 func ping(conn net.TCPConn) {
 	for {
 		ret := ActionRoute.SendObj("ping", "ping", "ping", nil)
-		if ActionRoute.Send(conn, ret) != true {
-			wg.Done()
-		}
+		ActionRoute.Send(conn, ret)
 		time.Sleep(time.Second * 10)
 	}
 }
