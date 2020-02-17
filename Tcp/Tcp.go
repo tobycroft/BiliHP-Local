@@ -70,7 +70,6 @@ func Functions(username string, token string) {
 	go app_heart(*conn)
 	go pc_heart(*conn)
 	go ping(*conn)
-	wg.Wait()
 }
 
 func Handler(username string, token string) {
