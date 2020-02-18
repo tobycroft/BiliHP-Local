@@ -41,8 +41,8 @@ func main() {
 	err := http.ListenAndServe("0.0.0.0:80", nil)
 
 	if err != nil {
-		fmt.Println("80端口被占用，正在使用81端口重试")
-		fmt.Println("正在更换端口并启动程序，请访问http://127.0.0.1:81")
+		fmt.Println("80端口被占用，正在使用79端口重试")
+		fmt.Println("正在更换端口并启动程序，请访问http://127.0.0.1:79")
 		time.Sleep(5 * time.Second)
 		err := http.ListenAndServe("0.0.0.0:79", nil)
 		if err != nil {
