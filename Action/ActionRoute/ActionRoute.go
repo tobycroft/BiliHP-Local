@@ -37,6 +37,10 @@ func ActionRoute(json string, username string, conn *net.TCPConn) {
 				fmt.Println(ret)
 				break
 
+			case "app":
+				PCRoute(jobject, username, conn)
+				break
+
 			case "supercurl":
 				fmt.Println(ret)
 				break

@@ -44,14 +44,15 @@ func main() {
 		fmt.Println("80端口被占用，正在使用81端口重试")
 		fmt.Println("正在更换端口并启动程序，请访问http://127.0.0.1:81")
 		time.Sleep(5 * time.Second)
-		err := http.ListenAndServe("0.0.0.0:81", nil)
+		err := http.ListenAndServe("0.0.0.0:79", nil)
 		if err != nil {
-			fmt.Println("81端口也被占用……程序自动停止")
+			fmt.Println("79端口也被占用……程序自动停止")
 		}
 	}
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	username := Conf.LoadConf("user", "username")
 	token := Conf.LoadConf("user", "token")
 	if username == "" || token == "" {
@@ -63,7 +64,8 @@ func index(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func writelogin(response http.ResponseWriter, request *http.Request) {
+func writelogin(w http.ResponseWriter, request *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	fmt.Println("Handler Hello")
 	username := request.PostFormValue("username")
 	token := request.PostFormValue("token")
@@ -71,15 +73,17 @@ func writelogin(response http.ResponseWriter, request *http.Request) {
 	Conf.SaveConf("user", "token", token)
 	go Tcp.Create(username, token)
 	url := "/panel"
-	http.Redirect(response, request, url, http.StatusFound)
+	http.Redirect(w, request, url, http.StatusFound)
 }
 
-func UserLoginHandler(response http.ResponseWriter, request *http.Request) {
+func UserLoginHandler(w http.ResponseWriter, request *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	fmt.Println("Handler Hello")
-	fmt.Fprintf(response, "Login Success")
+	fmt.Fprintf(w, "Login Success")
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	username := Conf.LoadConf("user", "username")
 	token := Conf.LoadConf("user", "token")
 	if username == "" || token == "" {
@@ -104,6 +108,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 }
 
 func panel(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	username := Conf.LoadConf("user", "username")
 	token := Conf.LoadConf("user", "token")
 	if username == "" || token == "" {
@@ -126,6 +131,7 @@ func panel(w http.ResponseWriter, r *http.Request) {
 }
 
 func setting_get(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	username := Conf.LoadConf("user", "username")
 	token := Conf.LoadConf("user", "token")
 	if username == "" || token == "" {
@@ -152,6 +158,7 @@ func setting_get(w http.ResponseWriter, r *http.Request) {
 }
 
 func setting_set(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	username := Conf.LoadConf("user", "username")
 	token := Conf.LoadConf("user", "token")
 	if username == "" || token == "" {
