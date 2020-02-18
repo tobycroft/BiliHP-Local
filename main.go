@@ -7,7 +7,6 @@ import (
 	"main.go/Tcp"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
-	"main.go/tuuz/Net"
 	"net/http"
 	"time"
 )
@@ -43,7 +42,7 @@ func main() {
 	if err != nil {
 		fmt.Println("80端口被占用，正在使用79端口重试")
 		fmt.Println("正在更换端口并启动程序，请访问http://127.0.0.1:79")
-		time.Sleep(5 * time.Second)
+		//time.Sleep(5 * time.Second)
 		err := http.ListenAndServe("0.0.0.0:79", nil)
 		if err != nil {
 			fmt.Println("79端口也被占用……程序自动停止")
@@ -138,23 +137,14 @@ func setting_get(w http.ResponseWriter, r *http.Request) {
 		url := "/login"
 		http.Redirect(w, r, url, http.StatusFound)
 	}
-	_, ret, err := Net.Post("http://go.bilihp.com:180/v1/pc/setting/setting_get", map[string]interface{}{"username": username, "token": token}, nil, nil)
-	//fmt.Println(ret.(string))
-	if err != nil {
-		fmt.Println("setting_get", err)
-	} else {
-		jsr, err := Jsong.JObject(ret.(string))
-		if err != nil {
-			fmt.Println("setting_get", err)
-		} else {
-			jsp, _ := Jsong.ParseObject(jsr["data"])
-			for k, v := range jsp {
-				Conf.SaveConf("setting", Calc.Any2String(k), Calc.Any2String(v))
-			}
-		}
+	Tcp.Get_settings(username)
+	setting := Conf.LoadSec("setting")
+	ret := make(map[string]interface{})
+	ret["code"] = 0
+	ret["data"] = setting
+	rrr, _ := Jsong.Encode(ret)
+	w.Write([]byte(rrr))
 
-		w.Write([]byte(ret.(string)))
-	}
 }
 
 func setting_set(w http.ResponseWriter, r *http.Request) {
@@ -168,12 +158,16 @@ func setting_set(w http.ResponseWriter, r *http.Request) {
 	key := r.PostFormValue("key")
 	value := r.PostFormValue("value")
 	Conf.SaveConf("setting", Calc.Any2String(key), Calc.Any2String(value))
-	_, ret, err := Net.Post("http://go.bilihp.com:180/v1/pc/setting/setting_set", map[string]interface{}{"username": username, "token": token, "key": key, "value": value}, nil, nil)
+
+	//_, ret, err := Net.Post("http://go.bilihp.com:180/v1/pc/setting/setting_set", map[string]interface{}{"username": username, "token": token, "key": key, "value": value}, nil, nil)
 	//fmt.Println(ret.(string))
-	if err != nil {
-		fmt.Println("setting_set", err)
-	} else {
-		w.Write([]byte(ret.(string)))
-	}
+	Tcp.Set_setting(username, key, value)
+	//if err != nil {
+	//	fmt.Println("setting_set", err)
+	//} else {
+	ret := map[string]interface{}{"code": 0, "data": "设置完成"}
+	rrr, _ := Jsong.Encode(ret)
+	w.Write([]byte(rrr))
+	//}
 
 }

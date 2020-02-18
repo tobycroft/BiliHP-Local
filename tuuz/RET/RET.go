@@ -53,6 +53,22 @@ func Ws_succ(typ string, code interface{}, data interface{}, echo interface{}) s
 	return string(jb)
 }
 
+func Ws_succ2(typ string, route string, code interface{}, data interface{}, echo interface{}) string {
+	ret := make(map[string]interface{})
+	ret["type"] = typ
+	ret["route"] = route
+	ret["code"] = code
+	ret["data"] = data
+	ret["echo"] = echo
+	jb, err := Jsong.Encode(ret)
+	//fmt.Println(jb)
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+	return string(jb)
+}
+
 func Ws_fail(typ string, code interface{}, data interface{}, echo interface{}) string {
 	return Ws_succ(typ, code, data, echo)
 }

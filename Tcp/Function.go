@@ -7,7 +7,6 @@ import (
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
 	"main.go/tuuz/Net"
-	"net"
 	"time"
 )
 
@@ -39,11 +38,13 @@ func update_setting() {
 	}
 }
 
-func yingyuan_sign(conn net.TCPConn) {
+func yingyuan_sign(username string) {
+
 	for {
 		if Conf.LoadConf("setting", "yingyuan_sign") == "1" {
 			ret := ActionRoute.SendObj("func", nil, "yingyuan_sign", nil)
-			if ActionRoute.Send(conn, ret) != true {
+			if Conn[username] != nil {
+				ActionRoute.Send(*Conn[username], ret)
 
 			}
 		}
@@ -51,11 +52,12 @@ func yingyuan_sign(conn net.TCPConn) {
 	}
 }
 
-func daily_task(conn net.TCPConn) {
+func daily_task(username string) {
 	for {
 		if Conf.LoadConf("setting", "daily_bag") == "1" {
 			ret := ActionRoute.SendObj("func", nil, "daily_task", nil)
-			if ActionRoute.Send(conn, ret) != true {
+			if Conn[username] != nil {
+				ActionRoute.Send(*Conn[username], ret)
 
 			}
 		}
@@ -64,11 +66,12 @@ func daily_task(conn net.TCPConn) {
 
 }
 
-func silver_task(conn net.TCPConn) {
+func silver_task(username string) {
 	for {
 		if Conf.LoadConf("setting", "daily_bag") == "1" {
 			ret := ActionRoute.SendObj("func", nil, "silver_task", nil)
-			if ActionRoute.Send(conn, ret) != true {
+			if Conn[username] != nil {
+				ActionRoute.Send(*Conn[username], ret)
 
 			}
 		}
@@ -77,11 +80,12 @@ func silver_task(conn net.TCPConn) {
 
 }
 
-func online_silver(conn net.TCPConn) {
+func online_silver(username string) {
 	for {
 		if Conf.LoadConf("setting", "daily_bag") == "1" {
 			ret := ActionRoute.SendObj("func", nil, "online_silver", nil)
-			if ActionRoute.Send(conn, ret) != true {
+			if Conn[username] != nil {
+				ActionRoute.Send(*Conn[username], ret)
 
 			}
 		}
@@ -90,11 +94,12 @@ func online_silver(conn net.TCPConn) {
 
 }
 
-func daily_bag(conn net.TCPConn) {
+func daily_bag(username string) {
 	for {
 		if Conf.LoadConf("setting", "daily_bag") == "1" {
 			ret := ActionRoute.SendObj("func", nil, "daily_bag", nil)
-			if ActionRoute.Send(conn, ret) != true {
+			if Conn[username] != nil {
+				ActionRoute.Send(*Conn[username], ret)
 
 			}
 		}
@@ -103,11 +108,12 @@ func daily_bag(conn net.TCPConn) {
 
 }
 
-func app_heart(conn net.TCPConn) {
+func app_heart(username string) {
 	for {
 		if Conf.LoadConf("setting", "app_heart") == "1" {
 			ret := ActionRoute.SendObj("func", nil, "app_heart", nil)
-			if ActionRoute.Send(conn, ret) != true {
+			if Conn[username] != nil {
+				ActionRoute.Send(*Conn[username], ret)
 
 			}
 		}
@@ -115,22 +121,26 @@ func app_heart(conn net.TCPConn) {
 	}
 }
 
-func pc_heart(conn net.TCPConn) {
+func pc_heart(username string) {
 	for {
 		if Conf.LoadConf("setting", "pc_heart") == "1" {
 			ret := ActionRoute.SendObj("func", nil, "pc_heart", nil)
-			if ActionRoute.Send(conn, ret) != true {
-
+			if Conn[username] != nil {
+				ActionRoute.Send(*Conn[username], ret)
 			}
+
 		}
 		time.Sleep(time.Second * 30)
 	}
 }
 
-func ping(conn net.TCPConn) {
+func ping(username string) {
 	for {
 		ret := ActionRoute.SendObj("ping", "ping", "ping", nil)
-		ActionRoute.Send(conn, ret)
-		time.Sleep(time.Second * 10)
+		if Conn[username] != nil {
+			ActionRoute.Send(*Conn[username], ret)
+			time.Sleep(time.Second * 10)
+		}
+
 	}
 }

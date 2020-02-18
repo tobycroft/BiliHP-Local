@@ -32,7 +32,9 @@ func Create(username string, token string) {
 	wg.Add(1)
 	if err != nil {
 		fmt.Println("连接故障……正在重连……")
+
 		time.Sleep(1 * time.Second)
+		wg.Done()
 	} else {
 		fmt.Println("成功连入服务器！")
 		data := make(map[string]interface{})
@@ -60,16 +62,36 @@ func Sender(username string, token string, message string) {
 }
 
 func Functions(username string, token string) {
-	conn := Conn[username]
-	go update_setting()
-	go yingyuan_sign(*conn)
-	go daily_task(*conn)
-	go silver_task(*conn)
-	go online_silver(*conn)
-	go daily_bag(*conn)
-	go app_heart(*conn)
-	go pc_heart(*conn)
-	go ping(*conn)
+	go yingyuan_sign(username)
+	go daily_task(username)
+	go silver_task(username)
+	go online_silver(username)
+	go daily_bag(username)
+	go app_heart(username)
+	go pc_heart(username)
+	go ping(username)
+}
+
+func Set_setting(username, key, value string) {
+	data := make(map[string]string)
+	data["key"] = key
+	data["value"] = value
+
+	rt := RET.Ws_succ2("app", "pc_set_setting", 0, data, "pc_set_setting")
+	//str, _ := Jsong.Encode(data)
+	if Conn[username] != nil {
+		ActionRoute.Send(*Conn[username], rt)
+	}
+}
+
+func Get_settings(username string) {
+	data := make(map[string]string)
+
+	rt := RET.Ws_succ2("app", "get_config", 0, data, "get_config")
+	//str, _ := Jsong.Encode(data)
+	if Conn[username] != nil {
+		ActionRoute.Send(*Conn[username], rt)
+	}
 }
 
 func Handler(username string, token string) {
@@ -80,7 +102,9 @@ func Handler(username string, token string) {
 		n, err := conn.Read(buf)
 		if err != nil {
 			wg.Done()
+
 			fmt.Println("handler出错:", err)
+			return
 		}
 		//fmt.Println("len:", n, err)
 		if n >= 1024 {
