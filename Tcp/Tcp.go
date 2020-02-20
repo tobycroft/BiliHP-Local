@@ -21,7 +21,7 @@ func Create(username string, token string) {
 		time.Sleep(1 * time.Second)
 		Create(username, token)
 	}()
-	server := ActionRoute.Addr
+	server := Conf.Addr
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", server)
 
 	if err != nil {
@@ -113,7 +113,9 @@ func Handler(username string, token string) {
 			temp += string(buf[:n])
 		} else {
 			if n > MaxMSS {
+				Lock.Lock()
 				MaxMSS = n
+				Lock.Unlock()
 			}
 			temp += string(buf[:n])
 			msg := temp

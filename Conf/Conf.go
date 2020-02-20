@@ -5,7 +5,9 @@ import (
 	"runtime"
 )
 
-const Version = "0.18.0"
+const Version = "0.18.3"
+
+const Addr = "go.bilihp.com:81"
 
 func SystemType() string {
 	sysType := runtime.GOOS

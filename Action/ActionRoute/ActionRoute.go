@@ -11,8 +11,6 @@ import (
 	"os/exec"
 )
 
-const Addr = "go.bilihp.com:81"
-
 func ActionRoute(json string, username string, conn *net.TCPConn) {
 	jsons, err := Jsong.TCPJObject(json)
 	if err != nil {
@@ -329,7 +327,7 @@ func Send(conn net.TCPConn, message string) bool {
 }
 
 func Reconnect(conn *net.TCPConn) {
-	server := Addr
+	server := Conf.Addr
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", server)
 	if err != nil {
 		fmt.Println("重连故障：", err)
