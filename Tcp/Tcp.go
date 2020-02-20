@@ -103,7 +103,6 @@ func Handler(username string, token string) {
 		n, err := Conn[username].Read(buf)
 		if err != nil {
 			wg.Done()
-
 			fmt.Println("handler出错:", err)
 			return
 		}
