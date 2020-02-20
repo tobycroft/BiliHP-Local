@@ -96,12 +96,11 @@ func Get_settings(username string) {
 }
 
 func Handler(username string, token string) {
-	conn := Conn[username]
 	var temp string
 
 	for {
 		buf := make([]byte, 4096)
-		n, err := conn.Read(buf)
+		n, err := Conn[username].Read(buf)
 		if err != nil {
 			wg.Done()
 
@@ -121,7 +120,7 @@ func Handler(username string, token string) {
 			msg := temp
 			temp = ""
 			//fmt.Println(msg)
-			ActionRoute.ActionRoute(msg, username, conn)
+			ActionRoute.ActionRoute(msg, username, Conn[username])
 		}
 	}
 }
