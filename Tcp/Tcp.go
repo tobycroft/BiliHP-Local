@@ -107,7 +107,7 @@ func Handler(username string, token string) {
 			fmt.Println("handler出错:", err)
 			return
 		}
-		fmt.Println("len:", n, err)
+		fmt.Println("len:", n, "MM", MaxMSS)
 		if n == MaxMSS {
 			temp += string(buf[:n])
 		} else {
