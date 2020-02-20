@@ -28,13 +28,12 @@ func Create(username string, token string) {
 		fmt.Println(os.Stderr, "Fatal error: ", err)
 		os.Exit(1)
 	}
-
+	//fmt.Println(tcpAddr)
 	//建立服务器连接
 	Conn[username], err = net.DialTCP("tcp", nil, tcpAddr)
 	wg.Add(1)
 	if err != nil {
-		fmt.Println("连接故障……正在重连……")
-
+		fmt.Println("连接故障……正在重连……", err)
 		time.Sleep(1 * time.Second)
 		wg.Done()
 	} else {
@@ -99,7 +98,7 @@ func Get_settings(username string) {
 func Handler(username string, token string) {
 	conn := Conn[username]
 	var temp string
-	var MaxMSS int = 0
+
 	for {
 		buf := make([]byte, 4096)
 		n, err := conn.Read(buf)
@@ -109,7 +108,7 @@ func Handler(username string, token string) {
 			fmt.Println("handler出错:", err)
 			return
 		}
-		//fmt.Println("len:", n, err)
+		fmt.Println("len:", n, err)
 		if n == MaxMSS {
 			temp += string(buf[:n])
 		} else {
