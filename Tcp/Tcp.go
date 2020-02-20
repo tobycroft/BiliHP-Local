@@ -101,7 +101,7 @@ func Handler(username string, token string) {
 	var temp string
 	var MaxMSS int = 0
 	for {
-		buf := make([]byte, 4000)
+		buf := make([]byte, 4096)
 		n, err := conn.Read(buf)
 		if err != nil {
 			wg.Done()
