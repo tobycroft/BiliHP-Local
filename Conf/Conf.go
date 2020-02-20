@@ -5,7 +5,7 @@ import (
 	"runtime"
 )
 
-const Version = "0.17.1"
+const Version = "0.17.2"
 
 func SystemType() string {
 	sysType := runtime.GOOS
