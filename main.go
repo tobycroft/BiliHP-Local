@@ -8,6 +8,7 @@ import (
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
 	"net/http"
+	"os/exec"
 	"time"
 )
 
@@ -37,9 +38,15 @@ func main() {
 	if username == "" || token == "" {
 		fmt.Println("你还没有登录，请访问上面的地址进行登录")
 	}
+	if Conf.SystemType() == "windows" {
+		exec.Command(`cmd`, `/c`, `start`, `http://localhost/`).Start()
+	}
 	err := http.ListenAndServe("0.0.0.0:80", nil)
 
 	if err != nil {
+		if Conf.SystemType() == "windows" {
+			exec.Command(`cmd`, `/c`, `start`, `http://localhost:79/`).Start()
+		}
 		fmt.Println("80端口被占用，正在使用79端口重试")
 		fmt.Println("正在更换端口并启动程序，请访问http://127.0.0.1:79")
 		//time.Sleep(5 * time.Second)

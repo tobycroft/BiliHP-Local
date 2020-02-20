@@ -2,9 +2,15 @@ package Conf
 
 import (
 	"github.com/Unknwon/goconfig"
+	"runtime"
 )
 
-const Version = "0.15.3"
+const Version = "0.17.0"
+
+func SystemType() string {
+	sysType := runtime.GOOS
+	return sysType
+}
 
 func LoadConf(section string, key string) string {
 	cfg, err := goconfig.LoadConfigFile("conf.ini")
