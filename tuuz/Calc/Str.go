@@ -45,8 +45,16 @@ func Any2String(any interface{}) string {
 	case nil:
 		str = ""
 
+	case bool:
+		tmp := any.(bool)
+		if tmp == true {
+			return "true"
+		} else {
+			return "false"
+		}
+
 	default:
-		fmt.Println(reflect.TypeOf(any))
+		fmt.Println("any2string", any, reflect.TypeOf(any))
 		str = ""
 	}
 	return str
