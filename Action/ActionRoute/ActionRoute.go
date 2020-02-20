@@ -11,7 +11,7 @@ import (
 	"os/exec"
 )
 
-const Addr = "127.0.0.1:81"
+const Addr = "go.bilihp.com:81"
 
 func ActionRoute(json string, username string, conn *net.TCPConn) {
 	jsons, err := Jsong.TCPJObject(json)
