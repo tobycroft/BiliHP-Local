@@ -110,9 +110,12 @@ func Handler(username string, token string) {
 			return
 		}
 		//fmt.Println("len:", n, err)
-		if n >= 1024 {
+		if n == MaxMSS {
 			temp += string(buf[:n])
 		} else {
+			if n > MaxMSS {
+				MaxMSS = n
+			}
 			temp += string(buf[:n])
 			msg := temp
 			temp = ""
