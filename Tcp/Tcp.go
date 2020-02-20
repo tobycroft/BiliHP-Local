@@ -13,6 +13,8 @@ import (
 
 var wg = sync.WaitGroup{}
 var Conn = make(map[string]*net.TCPConn)
+var MaxMSS = 0
+var Lock sync.RWMutex
 
 func Create(username string, token string) {
 	defer func() {
@@ -97,8 +99,9 @@ func Get_settings(username string) {
 func Handler(username string, token string) {
 	conn := Conn[username]
 	var temp string
+	var MaxMSS int = 0
 	for {
-		buf := make([]byte, 1024)
+		buf := make([]byte, 4000)
 		n, err := conn.Read(buf)
 		if err != nil {
 			wg.Done()
