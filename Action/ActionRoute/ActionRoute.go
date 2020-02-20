@@ -9,7 +9,6 @@ import (
 	"net"
 	"os"
 	"os/exec"
-	"time"
 )
 
 const Addr = "go.bilihp.com:181"
@@ -59,8 +58,19 @@ func ActionRoute(json string, username string, conn *net.TCPConn) {
 
 			case "update":
 				fmt.Println(echo)
-				exec.Command(`cmd`, `/c`, `start`, Calc.Any2String(ret)).Start()
-				time.Sleep(120 * time.Second)
+				break
+
+			case "force_update":
+				fmt.Println(echo)
+				if Conf.SystemType() == "windows" {
+					exec.Command(`cmd`, `/c`, `start`, Calc.Any2String(ret)).Start()
+				}
+				if Conf.SystemType() == "linux" {
+					fmt.Println("请执行:" + Calc.Any2String(ret))
+					fmt.Println("------------------START------------------")
+					fmt.Println("wget " + Calc.Any2String(ret))
+					fmt.Println("------------------END------------------")
+				}
 				os.Exit(1)
 				break
 
