@@ -290,6 +290,40 @@ func ActionRoute(json string, username string, conn *net.TCPConn) {
 				}
 				break
 
+			case "storm", "STORM":
+				rets, err := Jsong.ParseObject(ret)
+				if err != nil {
+					fmt.Println("CURL信息不正确")
+				} else {
+					var header, err2 = Jsong.ParseObject(rets["header"])
+					if err2 != nil {
+						ecam("[BiliHP-LOCAL-ERROR]:", err2, "")
+						break
+					}
+					var values, err3 = Jsong.ParseObject(rets["values"])
+					if err3 != nil {
+						ecam("[BiliHP-LOCAL-ERROR]:", err3, "")
+						break
+					}
+					var cookie, err4 = Jsong.ParseObject(rets["cookie"])
+					if err4 != nil {
+						ecam("[BiliHP-LOCAL-ERROR]:", err4, "")
+						break
+					}
+					var url = Calc.Any2String(rets["url"])
+					var method = Calc.Any2String(rets["method"])
+					var route = Calc.Any2String(rets["route"])
+					var typ = Calc.Any2String(rets["type"])
+					var delay = Calc.Any2Float64(rets["delay"])
+					ecam("", echo, "")
+					if Conf.LoadConf("setting", "storm") == "1" {
+						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
+					} else {
+						fmt.Println("节奏风暴-领取被关闭")
+					}
+				}
+				break
+
 			default:
 				fmt.Println("undefine-route", typ, ret, echo)
 				break
