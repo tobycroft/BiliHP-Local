@@ -39,7 +39,6 @@ func update_setting() {
 }
 
 func yingyuan_sign(username string) {
-
 	for {
 		if Conf.LoadConf("setting", "yingyuan_sign") == "1" {
 			ret := ActionRoute.SendObj("func", nil, "yingyuan_sign", nil)
