@@ -106,7 +106,6 @@ func Handler(username string, token string) {
 			fmt.Println("handler出错:", err)
 			return
 		}
-
 		ActionRoute.ActionRoute(temp, username, Conn[username])
 	}
 }
