@@ -44,7 +44,8 @@ func Create(username string, token string) {
 		data["version"] = Conf.Version
 		data["type"] = "pc"
 		Sender(username, token, RET.Ws_succ("init", 0, data, "init"))
-		go Functions(username, token)
+		//fmt.Println("init")
+		Functions(username, token)
 		Handler(username, token)
 	}
 	wg.Wait()
@@ -70,7 +71,6 @@ func Functions(username string, token string) {
 	go daily_bag(username)
 	go app_heart(username)
 	go pc_heart(username)
-	go ping(username)
 }
 
 func Set_setting(username, key, value string) {
@@ -106,6 +106,7 @@ func Handler(username string, token string) {
 			fmt.Println("handler出错:", err)
 			return
 		}
-		ActionRoute.ActionRoute(temp, username, Conn[username])
+		ActionRoute.ActionRoute(&temp, username, Conn[username])
 	}
+
 }
