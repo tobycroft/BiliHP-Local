@@ -96,30 +96,17 @@ func Get_settings(username string) {
 }
 
 func Handler(username string, token string) {
-	var temp string
-
+	temp := ""
+	buf := make([]byte, 8192)
 	for {
-		buf := make([]byte, 4096)
 		n, err := Conn[username].Read(buf)
+		temp += string(buf[:n])
 		if err != nil {
 			wg.Done()
 			fmt.Println("handler出错:", err)
 			return
 		}
-		fmt.Println("len:", n, "MM", MaxMSS)
-		if n == MaxMSS {
-			temp += string(buf[:n])
-		} else {
-			if n > MaxMSS {
-				Lock.Lock()
-				MaxMSS = n
-				Lock.Unlock()
-			}
-			temp += string(buf[:n])
-			msg := temp
-			temp = ""
-			//fmt.Println(msg)
-			ActionRoute.ActionRoute(msg, username, Conn[username])
-		}
+
+		ActionRoute.ActionRoute(temp, username, Conn[username])
 	}
 }
