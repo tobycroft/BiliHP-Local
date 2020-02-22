@@ -12,7 +12,7 @@ import (
 )
 
 func ActionRoute(json string, username string, conn *net.TCPConn) {
-	jsons, err := Jsong.TCPJObject(json)
+	jsons, err := Jsong.TCPJObject(&json)
 	if err != nil {
 		fmt.Println("err:", err, json)
 	} else {
