@@ -18,6 +18,7 @@ func main() {
 
 	fmt.Println(token)
 	if username != "" && token != "" {
+		go Tcp.Ping(username)
 		go Tcp.Create(username, token)
 	} else {
 
