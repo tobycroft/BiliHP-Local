@@ -59,6 +59,10 @@ func TCPJObject(temp *string) ([]map[string]interface{}, error) {
 	//var strs []string
 
 	data := *temp
+	if len(*temp) > 65535 {
+		*temp = ""
+		return nil, fmt.Errorf("%s", "too long")
+	}
 	strs := strings.Split(data, "}{")
 	if len(strs) > 2 {
 		unable := ""
