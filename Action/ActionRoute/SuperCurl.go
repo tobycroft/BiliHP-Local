@@ -31,11 +31,19 @@ func SuperCurl(url string, method string, values map[string]interface{}, headers
 		req.SetHeaders(header)
 		req.SetCookies(cookies)
 		ret, err := req.Post(url, values)
+		if err != nil {
+			ecam("[BiliHP-NET-ERROR0]:", err, "")
+			return
+		}
 		body, err := ret.Body()
+		if err != nil {
+			ecam("[BiliHP-NET-ERROR1]:", err, "")
+			return
+		}
 		resp_header := ret.Headers()
 		//fmt.Println(cookie_arr)
 		if err != nil {
-			ecam("[BiliHP-NET-ERROR]:", err, "")
+			ecam("[BiliHP-NET-ERROR2]:", err, "")
 			return
 		} else {
 			ret := make(map[string]interface{})
@@ -54,10 +62,18 @@ func SuperCurl(url string, method string, values map[string]interface{}, headers
 		req.SetHeaders(header)
 		req.SetCookies(cookies)
 		ret, err := req.Get(url, values)
+		if err != nil {
+			ecam("[BiliHP-NET-ERROR10]:", err, "")
+			return
+		}
 		body, err := ret.Body()
+		if err != nil {
+			ecam("[BiliHP-NET-ERROR11]:", err, "")
+			return
+		}
 		resp_header := ret.Headers()
 		if err != nil {
-			ecam("[BiliHP-NET-ERROR]:", err, "")
+			ecam("[BiliHP-NET-ERROR12]:", err, "")
 			return
 		} else {
 			ret := make(map[string]interface{})
