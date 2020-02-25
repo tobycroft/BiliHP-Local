@@ -100,12 +100,22 @@ func Handler(username string, token string) {
 	buf := make([]byte, 8192)
 	for {
 		n, err := Conn[username].Read(buf)
-		temp += string(buf[:n])
-		if err != nil {
+		if n == 0 || err != nil {
 			wg.Done()
 			fmt.Println("handler出错:", err)
 			return
+
+			//将当前用户从在线字典中删除
+			//address := strings.Split(addr, ":")
+			//ip := address[0]
+			//Conclose(conn, addr, ip)
+			//通知其他客户端该用户退出登录
+			//Messages <- "logout"
+			//Send_All("logout")
+			return
 		}
+		temp += string(buf[:n])
+
 		ActionRoute.ActionRoute(&temp, username, Conn[username])
 	}
 
