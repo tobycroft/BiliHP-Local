@@ -19,7 +19,7 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 		for _, jobject := range jsons {
 			code := Calc.Any2Int(jobject["code"])
 			if code == -1 {
-				ecam("[登录信息]：", "登录信息错误！", "")
+				ecam2(conn, "[登录信息]：", "登录信息错误！", "")
 				Conf.SaveConf("user", "username", "")
 				Conf.SaveConf("user", "token", "")
 				os.Exit(1)
@@ -82,28 +82,28 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 
 			case "debug":
 				if Conf.LoadConf("debug", "debug") == "true" {
-					ecam("[BiliHP-Debug]:", ret, "")
+					ecam2(conn, "[BiliHP-Debug]:", ret, "")
 				}
 				break
 
 			case "other":
-				ecam("[BiliHP-Other]:", ret, "")
+				ecam2(conn, "[BiliHP-Other]:", ret, "")
 				break
 
 			case "ecam":
-				ecam("[BiliHP-ECAM]:", ret, "")
+				ecam2(conn, "[BiliHP-ECAM]:", ret, "")
 				break
 
 			case "alert":
-				ecam("[BiliHP-Alert]:", ret, "")
+				ecam2(conn, "[BiliHP-Alert]:", ret, "")
 				break
 
 			case "login":
-				ecam("[BiliHP-Login]:", ret, "")
+				ecam2(conn, "[BiliHP-Login]:", ret, "")
 				break
 
 			case "loged":
-				ecam("[BiliHP-Loged]:", ret, "")
+				ecam2(conn, "[BiliHP-Loged]:", ret, "")
 				break
 
 			case "clear":
@@ -111,16 +111,16 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 				break
 
 			case "notam":
-				ecam("[BiliHP-NOTAM]:", ret, "")
+				ecam2(conn, "[BiliHP-NOTAM]:", ret, "")
 				break
 
 			case "system":
-				ecam("[BiliHP-系统消息]:", ret, "")
+				ecam2(conn, "[BiliHP-系统消息]:", ret, "")
 				break
 
 			case "pong":
 				if Conf.LoadConf("debug", "debug") == "true" {
-					ecam("[BiliHP-Ping]:", ret, "")
+					ecam2(conn, "[BiliHP-Ping]:", ret, "")
 				}
 				break
 
@@ -131,17 +131,17 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 				} else {
 					var header, err2 = Jsong.ParseObject(rets["header"])
 					if err2 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err2, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err2, "")
 						break
 					}
 					var values, err3 = Jsong.ParseObject(rets["values"])
 					if err3 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err3, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err3, "")
 						break
 					}
 					var cookie, err4 = Jsong.ParseObject(rets["cookie"])
 					if err4 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err4, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err4, "")
 						break
 					}
 					var url = Calc.Any2String(rets["url"])
@@ -149,7 +149,7 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					var route = Calc.Any2String(rets["route"])
 					var typ = Calc.Any2String(rets["type"])
 					var delay = Calc.Any2Float64(rets["delay"])
-					ecam("", echo, "")
+					ecam2(conn, "", echo, "")
 					go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 				}
 				break
@@ -161,17 +161,17 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 				} else {
 					var header, err2 = Jsong.ParseObject(rets["header"])
 					if err2 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err2, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err2, "")
 						break
 					}
 					var values, err3 = Jsong.ParseObject(rets["values"])
 					if err3 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err3, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err3, "")
 						break
 					}
 					var cookie, err4 = Jsong.ParseObject(rets["cookie"])
 					if err4 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err4, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err4, "")
 						break
 					}
 					var url = Calc.Any2String(rets["url"])
@@ -179,11 +179,11 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					var route = Calc.Any2String(rets["route"])
 					var typ = Calc.Any2String(rets["type"])
 					var delay = Calc.Any2Float64(rets["delay"])
-					ecam("", echo, "")
+					ecam2(conn, "", echo, "")
 					if Conf.LoadConf("setting", "raffle") == "1" {
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
-						ecam("", "小电视-领取被关闭", "")
+						ecam2(conn, "", "小电视-领取被关闭", "")
 						//fmt.Println("小电视-领取被关闭")
 					}
 				}
@@ -196,17 +196,17 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 				} else {
 					var header, err2 = Jsong.ParseObject(rets["header"])
 					if err2 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err2, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err2, "")
 						break
 					}
 					var values, err3 = Jsong.ParseObject(rets["values"])
 					if err3 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err3, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err3, "")
 						break
 					}
 					var cookie, err4 = Jsong.ParseObject(rets["cookie"])
 					if err4 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err4, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err4, "")
 						break
 					}
 					var url = Calc.Any2String(rets["url"])
@@ -214,11 +214,11 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					var route = Calc.Any2String(rets["route"])
 					var typ = Calc.Any2String(rets["type"])
 					var delay = Calc.Any2Float64(rets["delay"])
-					ecam("", echo, "")
+					ecam2(conn, "", echo, "")
 					if Conf.LoadConf("setting", "guard") == "1" {
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
-						ecam("", "总督-领取被关闭", "")
+						ecam2(conn, "", "总督-领取被关闭", "")
 					}
 				}
 				break
@@ -230,17 +230,17 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 				} else {
 					var header, err2 = Jsong.ParseObject(rets["header"])
 					if err2 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err2, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err2, "")
 						break
 					}
 					var values, err3 = Jsong.ParseObject(rets["values"])
 					if err3 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err3, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err3, "")
 						break
 					}
 					var cookie, err4 = Jsong.ParseObject(rets["cookie"])
 					if err4 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err4, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err4, "")
 						break
 					}
 					var url = Calc.Any2String(rets["url"])
@@ -248,11 +248,11 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					var route = Calc.Any2String(rets["route"])
 					var typ = Calc.Any2String(rets["type"])
 					var delay = Calc.Any2Float64(rets["delay"])
-					ecam("", echo, "")
+					ecam2(conn, "", echo, "")
 					if Conf.LoadConf("setting", "tianxuan") == "1" {
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
-						ecam("", "天选时刻-领取被关闭", "")
+						ecam2(conn, "", "天选时刻-领取被关闭", "")
 					}
 				}
 				break
@@ -264,17 +264,17 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 				} else {
 					var header, err2 = Jsong.ParseObject(rets["header"])
 					if err2 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err2, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err2, "")
 						break
 					}
 					var values, err3 = Jsong.ParseObject(rets["values"])
 					if err3 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err3, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err3, "")
 						break
 					}
 					var cookie, err4 = Jsong.ParseObject(rets["cookie"])
 					if err4 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err4, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err4, "")
 						break
 					}
 					var url = Calc.Any2String(rets["url"])
@@ -282,11 +282,11 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					var route = Calc.Any2String(rets["route"])
 					var typ = Calc.Any2String(rets["type"])
 					var delay = Calc.Any2Float64(rets["delay"])
-					ecam("", echo, "")
+					ecam2(conn, "", echo, "")
 					if Conf.LoadConf("setting", "pk") == "1" {
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
-						ecam("", "天选时刻-领取被关闭", "")
+						ecam2(conn, "", "天选时刻-领取被关闭", "")
 					}
 				}
 				break
@@ -298,17 +298,17 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 				} else {
 					var header, err2 = Jsong.ParseObject(rets["header"])
 					if err2 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err2, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err2, "")
 						break
 					}
 					var values, err3 = Jsong.ParseObject(rets["values"])
 					if err3 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err3, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err3, "")
 						break
 					}
 					var cookie, err4 = Jsong.ParseObject(rets["cookie"])
 					if err4 != nil {
-						ecam("[BiliHP-LOCAL-ERROR]:", err4, "")
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err4, "")
 						break
 					}
 					var url = Calc.Any2String(rets["url"])
@@ -316,11 +316,11 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					var route = Calc.Any2String(rets["route"])
 					var typ = Calc.Any2String(rets["type"])
 					var delay = Calc.Any2Float64(rets["delay"])
-					ecam("", echo, "")
+					ecam2(conn, "", echo, "")
 					if Conf.LoadConf("setting", "storm") == "1" {
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
-						ecam("", "节奏风暴-领取被关闭", "")
+						ecam2(conn, "", "节奏风暴-领取被关闭", "")
 					}
 				}
 				break
@@ -336,6 +336,11 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 
 func ecam(msg interface{}, ret interface{}, color string) {
 	fmt.Println(msg, ret, color)
+}
+
+func ecam2(conn *net.TCPConn, msg interface{}, ret interface{}, color string) {
+	ecam(msg, ret, color)
+	Send(*conn, SendObj("send_app", msg, "", ""))
 }
 
 func SendObj(typ string, data interface{}, echo string, values interface{}) string {
