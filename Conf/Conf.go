@@ -5,7 +5,7 @@ import (
 	"runtime"
 )
 
-const Version = "0.18.12"
+const Version = "0.19.0"
 
 const Addr = "go.bilihp.com:181"
 
