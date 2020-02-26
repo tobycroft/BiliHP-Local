@@ -340,7 +340,7 @@ func ecam(msg interface{}, ret interface{}, color string) {
 
 func ecam2(conn *net.TCPConn, msg interface{}, ret interface{}, color string) {
 	ecam(msg, ret, color)
-	Send(*conn, SendObj("send_app", msg, "", ""))
+	Send(*conn, SendObj("send_app", msg, "", ret))
 }
 
 func SendObj(typ string, data interface{}, echo string, values interface{}) string {
