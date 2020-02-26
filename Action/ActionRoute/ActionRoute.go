@@ -183,7 +183,8 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					if Conf.LoadConf("setting", "raffle") == "1" {
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
-						fmt.Println("小电视-领取被关闭")
+						ecam("", "小电视-领取被关闭", "")
+						//fmt.Println("小电视-领取被关闭")
 					}
 				}
 				break
@@ -217,7 +218,7 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					if Conf.LoadConf("setting", "guard") == "1" {
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
-						fmt.Println("总督-领取被关闭")
+						ecam("", "总督-领取被关闭", "")
 					}
 				}
 				break
@@ -251,7 +252,7 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					if Conf.LoadConf("setting", "tianxuan") == "1" {
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
-						fmt.Println("天选时刻-领取被关闭")
+						ecam("", "天选时刻-领取被关闭", "")
 					}
 				}
 				break
@@ -285,7 +286,7 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					if Conf.LoadConf("setting", "pk") == "1" {
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
-						fmt.Println("天选时刻-领取被关闭")
+						ecam("", "天选时刻-领取被关闭", "")
 					}
 				}
 				break
@@ -319,7 +320,7 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					if Conf.LoadConf("setting", "storm") == "1" {
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
-						fmt.Println("节奏风暴-领取被关闭")
+						ecam("", "节奏风暴-领取被关闭", "")
 					}
 				}
 				break
