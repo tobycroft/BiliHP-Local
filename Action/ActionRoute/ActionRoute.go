@@ -39,23 +39,23 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 				break
 
 			case "supercurl":
-				fmt.Println(ret)
+				ecam2(conn, "", ret, "")
 				break
 
 			case "info":
-				fmt.Println(ret)
+				ecam2(conn, "", ret, "")
 				break
 
 			case "warning":
-				fmt.Println(ret)
+				ecam2(conn, "", ret, "")
 				break
 
 			case "error":
-				fmt.Println(ret)
+				ecam2(conn, "", ret, "")
 				break
 
 			case "update":
-				fmt.Println(echo)
+				ecam2(conn, "", echo, "")
 				break
 
 			case "force_update":
@@ -120,7 +120,7 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 
 			case "pong":
 				if Conf.LoadConf("debug", "debug") == "true" {
-					ecam2(conn, "[BiliHP-Ping]:", ret, "")
+					ecam("[BiliHP-Ping]:", ret, "")
 				}
 				break
 
