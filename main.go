@@ -73,13 +73,12 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func logproc(w http.ResponseWriter, request *http.Request) {
-	login := "http://127.0.0.1/v1/index/login/2"
 	username := request.PostFormValue("username")
 	password := request.PostFormValue("password")
 	captcha := request.PostFormValue("captcha")
 	if len(captcha) < 4 {
 		ret := make(map[string]interface{})
-		ret["code"] = 0
+		ret["code"] = 400
 		ret["data"] = "验证码不能为空"
 		rrr, _ := Jsong.Encode(ret)
 		w.Write([]byte(rrr))
@@ -91,7 +90,7 @@ func logproc(w http.ResponseWriter, request *http.Request) {
 	pm["password"] = password
 	pm["captcha"] = captcha
 	req := Net.Request()
-	ret, err := req.Post(login, pm)
+	ret, err := req.Post("http://go.bilihp.com:180/v1/index/login/2", pm)
 	if err != nil {
 		return
 	}
@@ -107,7 +106,7 @@ func logproc(w http.ResponseWriter, request *http.Request) {
 
 		json, err := Jsong.JObject(string(body))
 		if err != nil {
-			fmt.Println("回传输出出错")
+			fmt.Println("A回传输出出错")
 			return
 		}
 
@@ -117,10 +116,10 @@ func logproc(w http.ResponseWriter, request *http.Request) {
 			if err != nil {
 				fmt.Println("data数据错误")
 			}
-			header, err := Jsong.ParseObject2(data["header"])
-			if err != nil {
-				fmt.Println("header-数据错误")
-			}
+			//header, err := Jsong.ParseObject2(data["header"])
+			//if err != nil {
+			//	fmt.Println("header-数据错误")
+			//}
 			cookie, err := Jsong.ParseObject2(data["cookie"])
 			if err != nil {
 				fmt.Println("cookie-数据错误")
@@ -131,7 +130,7 @@ func logproc(w http.ResponseWriter, request *http.Request) {
 			}
 			url := Calc.Any2String(data["url"])
 			req2 := Net.Request()
-			req2.SetHeaders(header)
+			//req2.SetHeaders(header)
 			req2.SetCookies(cookie)
 			ret, err := req2.Post(url, values)
 			if err != nil {
@@ -143,33 +142,26 @@ func logproc(w http.ResponseWriter, request *http.Request) {
 				fmt.Println("rtt-数据错误")
 				return
 			}
+			fmt.Println(string(rtt))
 			arr := make(map[string]interface{})
 
 			arr["body"] = Jsong.Decode(string(rtt))
-
-			arr["statusCode"] = 200
+			//arr["header"]=ret.Headers()
+			//arr["statusCode"] = 200
 			req3 := Net.Request()
-			req3.SetHeaders(header)
-			req3.SetCookies(cookie)
 			cac := make(map[string]interface{})
 			cac["username"] = username
 			cac["password"] = password
 			cac["header"] = ret.Headers()
 			cac["ret"], _ = Jsong.Encode(arr)
-			ret3, err := req3.Post("http://127.0.0.1/v1/index/login/ret", cac)
+			ret3, err := req3.Post("http://go.bilihp.com:180/v1/index/login/ret", cac)
 			b3, err := ret3.Body()
 			if err != nil {
 				fmt.Println("b3-数据错误")
 				return
 			}
-			ret4, err := Jsong.JObject(string(b3))
-			if err != nil {
-				fmt.Println("b4-最终数据错误")
-				return
-			} else {
 
-			}
-			fmt.Println(string(b3))
+			w.Write([]byte(string(b3)))
 		} else {
 			fmt.Println("数据错误")
 		}

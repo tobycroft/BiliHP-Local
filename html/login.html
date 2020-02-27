@@ -123,33 +123,34 @@
                         "password": this.password,
                         "captcha": this.captcha,
                     },
+                    dataType:"json",
                     //请求成功
                     success: function (ret) {
-                        // console.log(JSON.stringify(ret));
-                        // if (ret.code == 0) {
-                        //     alert(ret.data.message);
-                            // $.ajax({
-                            //     //请求方式
-                            //     type: "POST",
-                            //     //请求地址
-                            //     url: "/writelogin",
-                            //     //数据，json字符串
-                            //     data: {
-                            //         "username": ret.data.username,
-                            //         "token": ret.data.token,
-                            //     },
-                            //     success: function (ret) {
-                            //         alert("登录成功，正在转向控制面板");
-                            //         window.location = "/";
-                            //     }
-                            // });
-                        // } else if (ret.code == 201) {
-                        //     vm.refresh_pic()
-                        //     window.location = ret.data.url
-                        // } else {
-                        //     vm.refresh_pic();
-                        //     alert(ret.data)
-                        // }
+
+                        if (ret.code == 0) {
+                            alert(ret.data.message);
+                            $.ajax({
+                                //请求方式
+                                type: "POST",
+                                //请求地址
+                                url: "/writelogin",
+                                //数据，json字符串
+                                data: {
+                                    "username": ret.data.username,
+                                    "token": ret.data.token,
+                                },
+                                success: function (ret) {
+                                    alert("登录成功，正在转向控制面板");
+                                    window.location = "/";
+                                }
+                            });
+                        } else if (ret.code == 201) {
+                            vm.refresh_pic()
+                            window.location = ret.data.url
+                        } else {
+                            vm.refresh_pic();
+                            alert(ret.data);
+                        }
                     },
                     //请求失败，包含具体的错误信息
                     error: function (e, msg, ds) {
