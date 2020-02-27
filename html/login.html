@@ -72,9 +72,9 @@
         </div>
     </div>
 </div>
-<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
 </script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script type="text/javascript">
     document.onmousedown = function () {
         if (event.button == 2) {
@@ -116,7 +116,7 @@
                     //请求方式
                     type: "POST",
                     //请求地址
-                    url: "http://go.bilihp.com:180" + "/v1/index/login/2",
+                    url: "/logproc",
                     //数据，json字符串
                     data: {
                         "username": this.username,
@@ -126,30 +126,30 @@
                     //请求成功
                     success: function (ret) {
                         // console.log(JSON.stringify(ret));
-                        if (ret.code == 0) {
-                            alert(ret.data.message);
-                            $.ajax({
-                                //请求方式
-                                type: "POST",
-                                //请求地址
-                                url: "/writelogin",
-                                //数据，json字符串
-                                data: {
-                                    "username": ret.data.username,
-                                    "token": ret.data.token,
-                                },
-                                success: function (ret) {
-                                    alert("登录成功，正在转向控制面板");
-                                    window.location = "/";
-                                }
-                            });
-                        } else if (ret.code == 201) {
-                            vm.refresh_pic()
-                            window.location = ret.data.url
-                        } else {
-                            vm.refresh_pic();
-                            alert(ret.data)
-                        }
+                        // if (ret.code == 0) {
+                        //     alert(ret.data.message);
+                            // $.ajax({
+                            //     //请求方式
+                            //     type: "POST",
+                            //     //请求地址
+                            //     url: "/writelogin",
+                            //     //数据，json字符串
+                            //     data: {
+                            //         "username": ret.data.username,
+                            //         "token": ret.data.token,
+                            //     },
+                            //     success: function (ret) {
+                            //         alert("登录成功，正在转向控制面板");
+                            //         window.location = "/";
+                            //     }
+                            // });
+                        // } else if (ret.code == 201) {
+                        //     vm.refresh_pic()
+                        //     window.location = ret.data.url
+                        // } else {
+                        //     vm.refresh_pic();
+                        //     alert(ret.data)
+                        // }
                     },
                     //请求失败，包含具体的错误信息
                     error: function (e, msg, ds) {

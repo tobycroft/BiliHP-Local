@@ -155,7 +155,7 @@ table {
   justify-content: center;
 }
 .login .main {
-  width: 350px;
+  width: 400px;
   padding: 20px;
   min-height: 300px;
   background: rgba(255, 255, 255, 0.5);
@@ -184,7 +184,7 @@ table {
   background-size: 45px 45px;
 }
 .login .main .inputLi {
-  margin-bottom: 10px;
+  margin-bottom: 40px;
   height: 45px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -195,8 +195,8 @@ table {
 }
 .login .main .inputLi input {
   background: #018dae;
-  height: 45px;
-  line-height: 45px;
+  height: 70px;
+  line-height: 70px;
   width: 100%;
   border: none;
   padding-left: 45px;
@@ -275,8 +275,8 @@ table {
   flex: 1;
 }
 .login .main .inputLi .codeImg {
-  width: 80px;
-  height: 41px;
+  width: 200px;
+  height: 65px;
   position: absolute;
   top: 2px;
   right: 2px;
