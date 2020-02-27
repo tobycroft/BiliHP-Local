@@ -7,6 +7,7 @@ import (
 	"main.go/Tcp"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
+	"main.go/tuuz/Net"
 	"net/http"
 	"os/exec"
 	"time"
@@ -69,6 +70,16 @@ func index(w http.ResponseWriter, r *http.Request) {
 		url := "/panel"
 		http.Redirect(w, r, url, http.StatusFound)
 	}
+}
+
+func logproc(w http.ResponseWriter, request *http.Request) {
+	login := "http://go.bilihp.com:180/v1/index/login/2"
+	username := request.PostFormValue("username")
+	password := request.PostFormValue("password")
+	pm := make(map[string]interface{})
+	pm["username"] = username
+	pm["password"] = password
+	Net.PostCookie(login, nil, pm, nil, nil)
 }
 
 func writelogin(w http.ResponseWriter, request *http.Request) {
