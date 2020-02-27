@@ -55,7 +55,8 @@
         <div class="main">
             <div class="title"></div>
             <div class="inputLi">
-                <input type="text" class="user" autofocus="autofocus" title="账户" placeholder="请输入账户" required="" v-model="username" @blur="username_ready()">
+                <input type="text" class="user" autofocus="autofocus" title="账户" placeholder="请输入账户" required=""
+                       v-model="username" @blur="username_ready()">
             </div>
             <div class="inputLi">
                 <input type="password" class="pwd" title="密码" placeholder="请输入密码" required="" v-model="password">
@@ -108,14 +109,14 @@
             },
             refresh_pic() {
                 // alert("验证码已经刷新");
-                this.username_ready()
+                this.username_ready();
             },
             login() {
                 $.ajax({
                     //请求方式
                     type: "POST",
                     //请求地址
-                    url: "http://go.bilihp.com:180" + "/v1/index/login/",
+                    url: "http://go.bilihp.com:180" + "/v1/index/login/2",
                     //数据，json字符串
                     data: {
                         "username": this.username,
