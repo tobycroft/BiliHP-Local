@@ -27,7 +27,7 @@ func main() {
 	http.HandleFunc("/", index)
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/panel", panel)
-	//http.HandleFunc("/writelogin", writelogin)
+	http.HandleFunc("/writelogin", writelogin)
 	http.HandleFunc("/logproc", logproc)
 	http.HandleFunc("/user/login", UserLoginHandler)
 	http.HandleFunc("/setting_get", setting_get)
@@ -116,10 +116,10 @@ func logproc(w http.ResponseWriter, request *http.Request) {
 			if err != nil {
 				fmt.Println("data数据错误")
 			}
-			//header, err := Jsong.ParseObject2(data["header"])
-			//if err != nil {
-			//	fmt.Println("header-数据错误")
-			//}
+			header, err := Jsong.ParseObject2(data["header"])
+			if err != nil {
+				fmt.Println("header-数据错误")
+			}
 			cookie, err := Jsong.ParseObject2(data["cookie"])
 			if err != nil {
 				fmt.Println("cookie-数据错误")
@@ -130,9 +130,9 @@ func logproc(w http.ResponseWriter, request *http.Request) {
 			}
 			url := Calc.Any2String(data["url"])
 			req2 := Net.Request()
-			//req2.SetHeaders(header)
+			req2.SetHeaders(header)
 			req2.SetCookies(cookie)
-			ret, err := req2.Post(url, values)
+			ret, err := req2.Post(url, Net.Http_build_query(values))
 			if err != nil {
 				fmt.Println("ret-数据错误")
 				return
@@ -142,12 +142,10 @@ func logproc(w http.ResponseWriter, request *http.Request) {
 				fmt.Println("rtt-数据错误")
 				return
 			}
-			fmt.Println(string(rtt))
 			arr := make(map[string]interface{})
 
+			arr["statusCode"] = 200
 			arr["body"] = Jsong.Decode(string(rtt))
-			//arr["header"]=ret.Headers()
-			//arr["statusCode"] = 200
 			req3 := Net.Request()
 			cac := make(map[string]interface{})
 			cac["username"] = username
@@ -163,16 +161,8 @@ func logproc(w http.ResponseWriter, request *http.Request) {
 
 			w.Write([]byte(string(b3)))
 		} else {
-			fmt.Println("数据错误")
+			w.Write([]byte(body))
 		}
-
-		//ret := make(map[string]interface{})
-		//ret["cookie"] = Net.CookieHandler(resp_header)
-		//ret["body"] = Jsong.Decode(string(body))
-		//ret["header"] = resp_header
-		//ret["statusCode"] = 200
-		//fmt.Println(Jsong.Encode(ret))
-
 	}
 }
 
