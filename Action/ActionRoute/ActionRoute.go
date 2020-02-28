@@ -403,7 +403,7 @@ func Gift_check(Time string) (bool, string) {
 	} else {
 		for timer, bool := range times {
 			if timer == "t"+Calc.Any2String(timing) {
-				if bool == "true" {
+				if bool == true {
 					return true, "本时段可用"
 				}
 			}
@@ -411,7 +411,6 @@ func Gift_check(Time string) (bool, string) {
 		}
 	}
 	return false, "本时段用户不参与抢礼物，如需启用，请在PC/C2C远程设置中开启"
-
 }
 
 func Gift_ratio(ratio int) (bool, string) {
