@@ -20,7 +20,7 @@ func Curl(url string, method string, values map[string]interface{}, headers map[
 	} else {
 		time.Sleep(del)
 	}
-	SuperCurl(url, method, values, headers, cookie, typ, echo, conn, route)
+	go SuperCurl(url, method, values, headers, cookie, typ, echo, conn, route)
 }
 
 func SuperCurl(url string, method string, values map[string]interface{}, headers map[string]interface{}, cookie map[string]interface{}, typ string, echo string, conn net.TCPConn, route string) {
