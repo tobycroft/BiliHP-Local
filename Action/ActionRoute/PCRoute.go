@@ -24,8 +24,10 @@ func PCRoute(jobject map[string]interface{}, username string, conn *net.TCPConn)
 				//fmt.Println(reflect.TypeOf(v), v)
 				if v == false || Calc.Any2String(v) == "0" {
 					Conf.SaveConf("setting", Calc.Any2String(k), "0")
-				} else {
+				} else if v == true || Calc.Any2String(v) == "1" {
 					Conf.SaveConf("setting", Calc.Any2String(k), "1")
+				} else {
+					Conf.SaveConf("setting", Calc.Any2String(k), Calc.Any2String(v))
 				}
 			}
 			fmt.Println("设置实时更新完毕")
