@@ -55,7 +55,7 @@ func SuperCurl(url string, method string, values map[string]interface{}, headers
 			if Conf.LoadConf("debug", "debug") == "true" {
 				fmt.Println("ret-post:", RET.Ws_succ(typ, 0, ret, echo))
 			}
-			Send(conn, SendObj(typ, ret, echo, values))
+			go Send(conn, SendObj(typ, ret, echo, values))
 		}
 	} else {
 		req := Net.Request()
@@ -85,7 +85,7 @@ func SuperCurl(url string, method string, values map[string]interface{}, headers
 			if Conf.LoadConf("debug", "debug") == "true" {
 				fmt.Println("ret-get:", RET.Ws_succ(typ, 0, ret, echo))
 			}
-			Send(conn, RET.Ws_succ(typ, 0, ret, echo))
+			go Send(conn, RET.Ws_succ(typ, 0, ret, echo))
 		}
 	}
 }
