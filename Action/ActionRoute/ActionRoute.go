@@ -9,6 +9,7 @@ import (
 	"net"
 	"os"
 	"os/exec"
+	"time"
 )
 
 func ActionRoute(json *string, username string, conn *net.TCPConn) {
@@ -181,6 +182,18 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					var delay = Calc.Any2Float64(rets["delay"])
 					ecam2(conn, "", echo, "")
 					if Conf.LoadConf("setting", "raffle") == "1" {
+						Time := Conf.LoadConf("setting", "time")
+						ok, reason := Gift_check(Time)
+						if !ok {
+							ecam2(conn, "", "[BiliHP-Security]+"+reason, "")
+							break
+						}
+						Percent := Conf.LoadConf("setting", "percent")
+						ok2, reason2 := Gift_ratio(Calc.Any2Int(Percent))
+						if !ok2 {
+							ecam2(conn, "", "[BiliHP-Security]+"+reason2, "")
+							break
+						}
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
 						ecam2(conn, "", "小电视-领取被关闭", "")
@@ -216,6 +229,18 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					var delay = Calc.Any2Float64(rets["delay"])
 					ecam2(conn, "", echo, "")
 					if Conf.LoadConf("setting", "guard") == "1" {
+						Time := Conf.LoadConf("setting", "time")
+						ok, reason := Gift_check(Time)
+						if !ok {
+							ecam2(conn, "", "[BiliHP-Security]+"+reason, "")
+							break
+						}
+						Percent := Conf.LoadConf("setting", "percent")
+						ok2, reason2 := Gift_ratio(Calc.Any2Int(Percent))
+						if !ok2 {
+							ecam2(conn, "", "[BiliHP-Security]+"+reason2, "")
+							break
+						}
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
 						ecam2(conn, "", "总督-领取被关闭", "")
@@ -250,6 +275,18 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					var delay = Calc.Any2Float64(rets["delay"])
 					ecam2(conn, "", echo, "")
 					if Conf.LoadConf("setting", "tianxuan") == "1" {
+						Time := Conf.LoadConf("setting", "time")
+						ok, reason := Gift_check(Time)
+						if !ok {
+							ecam2(conn, "", "[BiliHP-Security]+"+reason, "")
+							break
+						}
+						Percent := Conf.LoadConf("setting", "percent")
+						ok2, reason2 := Gift_ratio(Calc.Any2Int(Percent))
+						if !ok2 {
+							ecam2(conn, "", "[BiliHP-Security]+"+reason2, "")
+							break
+						}
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
 						ecam2(conn, "", "天选时刻-领取被关闭", "")
@@ -284,6 +321,18 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					var delay = Calc.Any2Float64(rets["delay"])
 					ecam2(conn, "", echo, "")
 					if Conf.LoadConf("setting", "pk") == "1" {
+						Time := Conf.LoadConf("setting", "time")
+						ok, reason := Gift_check(Time)
+						if !ok {
+							ecam2(conn, "", "[BiliHP-Security]+"+reason, "")
+							break
+						}
+						Percent := Conf.LoadConf("setting", "percent")
+						ok2, reason2 := Gift_ratio(Calc.Any2Int(Percent))
+						if !ok2 {
+							ecam2(conn, "", "[BiliHP-Security]+"+reason2, "")
+							break
+						}
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
 						ecam2(conn, "", "天选时刻-领取被关闭", "")
@@ -318,6 +367,18 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 					var delay = Calc.Any2Float64(rets["delay"])
 					ecam2(conn, "", echo, "")
 					if Conf.LoadConf("setting", "storm") == "1" {
+						Time := Conf.LoadConf("setting", "time")
+						ok, reason := Gift_check(Time)
+						if !ok {
+							ecam2(conn, "", "[BiliHP-Security]+"+reason, "")
+							break
+						}
+						Percent := Conf.LoadConf("setting", "percent")
+						ok2, reason2 := Gift_ratio(Calc.Any2Int(Percent))
+						if !ok2 {
+							ecam2(conn, "", "[BiliHP-Security]+"+reason2, "")
+							break
+						}
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
 						ecam2(conn, "", "节奏风暴-领取被关闭", "")
@@ -331,6 +392,34 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 
 			}
 		}
+	}
+}
+
+func Gift_check(Time string) (bool, string) {
+	timing := time.Now().Hour()
+	times, err := Jsong.JObject(Time)
+	if err != nil {
+		return true, "解析出错，本时段自动启用"
+	} else {
+		for timer, bool := range times {
+			if timer == "t"+Calc.Any2String(timing) {
+				if bool == "true" {
+					return true, "本时段可用"
+				}
+			}
+
+		}
+	}
+	return false, "本时段用户不参与抢礼物，如需启用，请在PC/C2C远程设置中开启"
+
+}
+
+func Gift_ratio(ratio int) (bool, string) {
+	num := Calc.Rand(1, 100)
+	if num < ratio {
+		return true, "概率系统自动捕捉" + Calc.Any2String(num)
+	} else {
+		return false, "概率系统自动跳过" + Calc.Any2String(num)
 	}
 }
 
