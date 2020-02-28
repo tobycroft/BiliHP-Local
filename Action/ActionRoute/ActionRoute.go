@@ -396,6 +396,7 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 }
 
 func Gift_check(Time string) (bool, string) {
+	return true, "PC版此功能我暫時沒辦法做"
 	timing := time.Now().Hour()
 	times, err := Jsong.JObject(Time)
 	if err != nil {
