@@ -116,7 +116,7 @@ func Handler(username string, token string) {
 		}
 		temp += string(buf[:n])
 
-		ActionRoute.ActionRoute(&temp, username, Conn[username])
+		go ActionRoute.ActionRoute(&temp, username, Conn[username])
 	}
 
 }
