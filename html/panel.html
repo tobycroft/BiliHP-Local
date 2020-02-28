@@ -2,7 +2,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>BiliHP-助手网络GoWeb版</title>
     <link rel="stylesheet" href="//www.layuicdn.com/layui/css/layui.css" media="all">
     <style>
@@ -58,6 +59,18 @@
                 </div>
             </div>
 
+            <div class="layui-form-item">
+                <label class="layui-form-label">应援团签到：</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="yingyuan_sign" title="应援团签到">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">银瓜子兑换硬币：</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="silver_to_coin" title="银瓜子兑换硬币">
+                </div>
+            </div>
         </div>
         {{/*-------------------------------------*/}}
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
@@ -101,33 +114,35 @@
                 </div>
             </div>
         </div>
-
-        {{/*-------------------------------------*/}}
+    </form>
+    {{/*-------------------------------------*/}}
+    <form class="layui-form" action="" lay-filter="common">
         <div class="layui-col-xs4 layui-col-sm12 layui-col-md4">
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-                <legend>其他设置</legend>
+                <legend>礼物时间设定</legend>
             </fieldset>
             <div class="layui-form-item">
-                <label class="layui-form-label">应援团签到：</label>
+                <label class="layui-form-label">礼物获取概率：</label>
                 <div class="layui-input-block">
-                    <input type="checkbox" name="yingyuan_sign" title="应援团签到">
+                    <input type="text" name="percent" title="礼物概率">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">银瓜子兑换硬币：</label>
+                <label class="layui-form-label">开启关闭时间，请在手机上设定，本页面做不出来，前端写不来</label>
                 <div class="layui-input-block">
-                    <input type="checkbox" name="silver_to_coin" title="银瓜子兑换硬币">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="common">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
 
         </div>
-        {{/*        <div class="layui-form-item">*/}}
-        {{/*            <div class="layui-input-block">*/}}
-        {{/*                <button class="layui-btn" lay-submit lay-filter="common">立即提交</button>*/}}
-        {{/*                <button type="reset" class="layui-btn layui-btn-primary">重置</button>*/}}
-        {{/*            </div>*/}}
-        {{/*        </div>*/}}
     </form>
+
+
 </div>
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
 </script>
@@ -139,8 +154,45 @@
 
         //监听提交
         form.on('submit(common)', function (data) {
-            layer.msg(JSON.stringify(data.field));
-            // layer.msg(JSON.stringify(data.field.like));
+            // layer.msg(JSON.stringify(data.field.percent));
+
+            $.ajax({
+                //请求方式
+                type: "POST",
+                //请求地址
+                url: "/setting_set",
+                //数据，json字符串
+                data: {
+                    "key": "percent",
+                    "value": data.field.percent,
+                },
+                success: function (ret) {
+                    var ret = JSON.parse(ret)
+                    // alert(ret.data);
+                    layer.msg(ret.data, {
+                        offset: '300px'
+                    });
+                }
+            });
+            $.ajax({
+                //请求方式
+                type: "POST",
+                //请求地址
+                url: "/setting_set",
+                //数据，json字符串
+                data: {
+                    "key": "time",
+                    "value": data.field.time,
+                },
+                success: function (ret) {
+                    var ret = JSON.parse(ret)
+                    // alert(ret.data);
+                    layer.msg(ret.data, {
+                        offset: '300px'
+                    });
+                }
+            });
+
             return false;
         });
 
@@ -164,9 +216,9 @@
                     });
                 }
             });
-
             // layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
         });
+
 
         $.ajax({
             //请求方式
@@ -186,14 +238,19 @@
                         obj[i] = false
                     } else if (data[i] == 1) {
                         obj[i] = true
+                    } else if (i == "time") {
+                        // var vr=JSON.parse(data[i])
+                        // for (var s in vr) {
+                        //     obj[s] = vr[s];
+                        // }
+                    } else {
+                        obj[i] = data[i];
                     }
                 }
                 console.log(obj)
                 form.val("common", obj);
             }
         });
-
-
     });
 
 

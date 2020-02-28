@@ -260,6 +260,7 @@ func setting_set(w http.ResponseWriter, r *http.Request) {
 	}
 	key := r.PostFormValue("key")
 	value := r.PostFormValue("value")
+	fmt.Println(Calc.Any2String(value))
 	Conf.SaveConf("setting", Calc.Any2String(key), Calc.Any2String(value))
 
 	//_, ret, err := Net.Post("http://go.bilihp.com:180/v1/pc/setting/setting_set", map[string]interface{}{"username": username, "token": token, "key": key, "value": value}, nil, nil)
