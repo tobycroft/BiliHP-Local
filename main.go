@@ -32,6 +32,7 @@ func main() {
 	http.HandleFunc("/user/login", UserLoginHandler)
 	http.HandleFunc("/setting_get", setting_get)
 	http.HandleFunc("/setting_set", setting_set)
+	http.HandleFunc("/captcha", captcha)
 	// 设置静态目录
 	fsh := http.FileServer(http.Dir("./html"))
 	http.Handle("/html/", http.StripPrefix("/html/", fsh))
@@ -70,6 +71,16 @@ func index(w http.ResponseWriter, r *http.Request) {
 		url := "/panel"
 		http.Redirect(w, r, url, http.StatusFound)
 	}
+}
+
+func captcha(w http.ResponseWriter, request *http.Request) {
+	//fmt.Println(username)
+	ur := request.URL.Query()
+	username := ur.Get("username")
+	req := Net.Request()
+	ret, _ := req.Get("http://go.bilihp.com:180/v1/index/login/bili_captcha?username" + username)
+	r, _ := ret.Body()
+	w.Write(r)
 }
 
 func logproc(w http.ResponseWriter, request *http.Request) {
