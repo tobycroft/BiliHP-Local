@@ -78,7 +78,7 @@ func captcha(w http.ResponseWriter, request *http.Request) {
 	ur := request.URL.Query()
 	username := ur.Get("username")
 	req := Net.Request()
-	ret, _ := req.Get("http://go.bilihp.com:180/v1/index/login/bili_captcha?username" + username)
+	ret, _ := req.Get("http://go.bilihp.com:180/v1/index/login/bili_captcha?username=" + username)
 	r, _ := ret.Body()
 	w.Write(r)
 }
