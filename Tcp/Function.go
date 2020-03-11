@@ -91,7 +91,7 @@ func app_heart(username string) {
 			}
 			Lock.Unlock()
 		}
-		time.Sleep(time.Second * 30)
+		time.Sleep(time.Second * 59)
 	}
 }
 
@@ -105,7 +105,7 @@ func pc_heart(username string) {
 			}
 			Lock.Unlock()
 		}
-		time.Sleep(time.Second * 30)
+		time.Sleep(time.Second * 57)
 	}
 }
 
