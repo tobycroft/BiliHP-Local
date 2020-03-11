@@ -64,7 +64,7 @@ func TCPJObject(temp *string) ([]map[string]interface{}, error) {
 		return nil, fmt.Errorf("%s", "too long")
 	}
 	strs := strings.Split(data, "}{")
-	if len(strs) > 2 {
+	if len(strs) > 1 {
 		unable := ""
 		for i, v := range strs {
 			arr2 := make(map[string]interface{})
