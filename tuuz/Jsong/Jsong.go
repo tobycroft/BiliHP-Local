@@ -98,25 +98,25 @@ func TCPJObject(temp *string) ([]map[string]interface{}, error) {
 
 		*temp = unable
 		return arr, nil
-	} else if len(strs) > 1 {
-		arr2 := make(map[string]interface{})
-		err := json.Unmarshal([]byte(strs[0]+"}"), &arr2)
-		if err != nil {
-			//fmt.Println("2",data)
-			//fmt.Println(err)
-			return nil, err
-		} else {
-			*temp = "{" + strs[1]
-			arr = append(arr, arr2)
-			return arr, err
-		}
+		//} else if len(strs) > 1 {
+		//	arr2 := make(map[string]interface{})
+		//	err := json.Unmarshal([]byte(strs[0]+"}"), &arr2)
+		//	if err != nil {
+		//		//fmt.Println("2",data)
+		//		//fmt.Println(err)
+		//		return nil, err
+		//	} else {
+		//		*temp = "{" + strs[1]
+		//		arr = append(arr, arr2)
+		//		return arr, err
+		//	}
 	} else {
 		arr2 := make(map[string]interface{})
 		err := json.Unmarshal([]byte(data), &arr2)
 		if err != nil {
 			//fmt.Println("2",data)
 			//fmt.Println(err)
-			return nil, err
+			return nil, nil
 		} else {
 			*temp = ""
 			arr = append(arr, arr2)
