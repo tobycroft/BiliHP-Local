@@ -97,7 +97,7 @@ func Get_settings(username string) {
 
 func Handler(username string, token string) {
 	temp := ""
-	buf := make([]byte, 8192)
+	buf := make([]byte, 4096)
 	for {
 		n, err := Conn[username].Read(buf)
 		if n == 0 || err != nil {
@@ -116,7 +116,7 @@ func Handler(username string, token string) {
 		}
 		temp += string(buf[:n])
 
-		go ActionRoute.ActionRoute(&temp, username, Conn[username])
+		ActionRoute.ActionRoute(&temp, username, Conn[username])
 	}
 
 }
