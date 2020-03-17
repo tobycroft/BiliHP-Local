@@ -155,6 +155,38 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 				}
 				break
 
+			case "join_room":
+				rets, err := Jsong.ParseObject(ret)
+				if err != nil {
+					fmt.Println("CURL信息不正确")
+				} else {
+					var header, err2 = Jsong.ParseObject(rets["header"])
+					if err2 != nil {
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err2, "")
+						break
+					}
+					var values, err3 = Jsong.ParseObject(rets["values"])
+					if err3 != nil {
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err3, "")
+						break
+					}
+					var cookie, err4 = Jsong.ParseObject(rets["cookie"])
+					if err4 != nil {
+						ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err4, "")
+						break
+					}
+					var url = Calc.Any2String(rets["url"])
+					var method = Calc.Any2String(rets["method"])
+					var route = Calc.Any2String(rets["route"])
+					var typ = Calc.Any2String(rets["type"])
+					var delay = Calc.Any2Float64(rets["delay"])
+					ecam2(conn, "", echo, "")
+					if Conf.LoadConf("setting", "join_room") == "1" {
+						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
+					}
+				}
+				break
+
 			case "gift":
 				rets, err := Jsong.ParseObject(ret)
 				if err != nil {
