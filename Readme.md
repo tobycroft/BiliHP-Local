@@ -22,6 +22,8 @@ Centos，Ubuntu等Linux系统,苹果Mac电脑,Openwrt路由器,Windows32位,Wind
 
 原来我是我带大家玩，现在我希望大家可以一起来玩，欢迎在本版本开发完成后提交branch！
 
+![app](https://github.com/tobycroft/BiliHP-APP/blob/master/res/github-app.png)
+
 ## 版本号说明
 ### 例如v1.12.33：
 ##### 首先将版本号切为三段：
