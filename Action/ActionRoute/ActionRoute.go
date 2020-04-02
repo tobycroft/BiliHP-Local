@@ -9,6 +9,7 @@ import (
 	"net"
 	"os"
 	"os/exec"
+	"strings"
 	"time"
 )
 
@@ -318,6 +319,19 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 						if !ok2 {
 							ecam2(conn, "", "[BiliHP-Security]+"+reason2, "")
 							break
+						}
+						bw := Conf.LoadConf("setting", "ban_words")
+						bws := strings.Split(bw, ",")
+						obj, ess := Jsong.ParseObject(jobject["object"])
+						if ess != nil {
+
+						} else {
+							for word := range bws {
+								if Calc.Any2String(word) == Calc.Any2String(obj["award_name"]) {
+									ecam2(conn, "", "天选时刻-屏蔽词礼物不领取"+Calc.Any2String(obj["award_name"]), "")
+									return
+								}
+							}
 						}
 						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
 					} else {
