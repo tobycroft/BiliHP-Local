@@ -328,7 +328,7 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 						} else {
 							for word := range bws {
 								num := strings.Index(Calc.Any2String(word), Calc.Any2String(obj["award_name"]))
-								if num > 0 {
+								if num >= 0 {
 									ecam2(conn, "", "天选时刻-屏蔽词礼物不领取"+Calc.Any2String(obj["award_name"]), "")
 									return
 								}
