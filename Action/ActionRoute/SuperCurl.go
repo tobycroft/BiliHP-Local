@@ -13,6 +13,13 @@ import (
 )
 
 func Curl(url string, method string, values map[string]interface{}, headers map[string]interface{}, cookie map[string]interface{}, typ string, echo string, conn net.TCPConn, route string, delay float64) {
+	defer func() {
+		err := recover()
+		if err != nil {
+			fmt.Println("----Curl-recover----")
+			fmt.Println(err)
+		}
+	}()
 	ts := Calc.Any2String(delay)
 	del, err := time.ParseDuration(ts + "s")
 	if err != nil {
@@ -20,10 +27,17 @@ func Curl(url string, method string, values map[string]interface{}, headers map[
 	} else {
 		time.Sleep(del)
 	}
-	go SuperCurl(url, method, values, headers, cookie, typ, echo, conn, route)
+	SuperCurl(url, method, values, headers, cookie, typ, echo, conn, route)
 }
 
 func SuperCurl(url string, method string, values map[string]interface{}, headers map[string]interface{}, cookie map[string]interface{}, typ string, echo string, conn net.TCPConn, route string) {
+	defer func() {
+		err := recover()
+		if err != nil {
+			fmt.Println("----SuperCurl-recover----")
+			fmt.Println(err)
+		}
+	}()
 	header := Array.Mapinterface2MapString(headers)
 	cookies := Array.Mapinterface2MapString(cookie)
 	if method == "post" {
@@ -41,13 +55,14 @@ func SuperCurl(url string, method string, values map[string]interface{}, headers
 			return
 		}
 		resp_header := ret.Headers()
+		cook := ret.Cookies()
 		//fmt.Println(cookie_arr)
 		if err != nil {
 			ecam("[BiliHP-NET-ERROR2]:", err, "")
 			return
 		} else {
 			ret := make(map[string]interface{})
-			ret["cookie"] = Net.CookieHandler(resp_header)
+			ret["cookie"] = Net.CookieHandler(cook)
 			ret["route"] = route
 			ret["body"] = Jsong.Decode(string(body))
 			ret["header"] = resp_header
@@ -72,12 +87,14 @@ func SuperCurl(url string, method string, values map[string]interface{}, headers
 			return
 		}
 		resp_header := ret.Headers()
+		cook := ret.Cookies()
+
 		if err != nil {
 			ecam("[BiliHP-NET-ERROR12]:", err, "")
 			return
 		} else {
 			ret := make(map[string]interface{})
-			ret["cookie"] = Net.CookieHandler(resp_header)
+			ret["cookie"] = Net.CookieHandler(cook)
 			ret["route"] = route
 			ret["body"] = Jsong.Decode(string(body))
 			ret["header"] = resp_header

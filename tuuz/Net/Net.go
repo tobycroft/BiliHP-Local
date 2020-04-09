@@ -6,6 +6,7 @@ import (
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Log"
 	"main.go/tuuz/Redis"
+	"net/http"
 	"net/url"
 	"strings"
 )
@@ -55,7 +56,7 @@ func PostCookie(url string, queries map[string]interface{}, postData map[string]
 	req.SetCookies(cookies)
 	ret, err := req.Post(url+"?"+Http_build_query(queries), postData)
 	body, err := ret.Body()
-	cookie_arr := CookieHandler(ret.Headers())
+	cookie_arr := CookieHandler(ret.Cookies())
 	//fmt.Println(cookie_arr)
 	if err != nil {
 		return 500, "", cookie_arr, err
@@ -74,7 +75,7 @@ func PostCookieAuto(url string, queries map[string]interface{}, postData map[str
 	ret, err := req.Post(url+"?"+Http_build_query(queries), postData)
 	body, err := ret.Body()
 
-	cookie_arr := CookieHandler(ret.Headers())
+	cookie_arr := CookieHandler(ret.Cookies())
 	CookieUpdater(cookie_arr, ident)
 	if err != nil {
 		return 500, "", err
@@ -94,7 +95,7 @@ func PostCookieManual(url string, queries map[string]interface{}, postData map[s
 	ret, err := req.Post(url+"?"+Http_build_query(queries), postData)
 	body, err := ret.Body()
 
-	cookie_arr := CookieHandler(ret.Headers())
+	cookie_arr := CookieHandler(ret.Cookies())
 	CookieUpdater(cookie_arr, ident)
 	if err != nil {
 		return 500, "", err
@@ -144,7 +145,7 @@ func GetCookie(url string, queries map[string]interface{}, headers map[string]st
 	req.SetCookies(cookies)
 	ret, err := req.Get(url, queries)
 	body, err := ret.Body()
-	cookie_arr := CookieHandler(ret.Headers())
+	cookie_arr := CookieHandler(ret.Cookies())
 	//fmt.Println(cookie_arr)
 	if err != nil {
 		return 500, "", cookie_arr, err
@@ -166,7 +167,7 @@ func GetCookieAuto(url string, queries map[string]interface{}, headers map[strin
 		return 500, "", err
 	}
 	body, err := ret.Body()
-	cookie_arr := CookieHandler(ret.Headers())
+	cookie_arr := CookieHandler(ret.Cookies())
 	CookieUpdater(cookie_arr, ident)
 	if err != nil {
 		return 500, "", err
@@ -189,7 +190,7 @@ func GetCookieManual(url string, queries map[string]interface{}, headers map[str
 		return 500, "", err
 	}
 	body, err := ret.Body()
-	cookie_arr := CookieHandler(ret.Headers())
+	cookie_arr := CookieHandler(ret.Cookies())
 	CookieUpdater(cookie_arr, ident)
 	if err != nil {
 		return 500, "", err
@@ -198,8 +199,16 @@ func GetCookieManual(url string, queries map[string]interface{}, headers map[str
 	}
 }
 
-func CookieHandler(resp_header map[string]string) map[string]interface{} {
-	cookie := strings.Split(resp_header["Set-Cookie"], "; ")
+func CookieHandler(resp_headers []*http.Cookie) map[string]interface{} {
+	cookie_arr := make(map[string]interface{})
+	for _, resp_header := range resp_headers {
+		cookie_arr[resp_header.Name] = resp_header.Value
+	}
+	return cookie_arr
+}
+
+func CookieHandler2(resp_header map[string]interface{}) map[string]interface{} {
+	cookie := strings.Split(Calc.Any2String(resp_header["Set-Cookie"]), "; ")
 	cookie_arr := make(map[string]interface{})
 	for _, v := range cookie {
 		split := strings.Split(v, "=")
