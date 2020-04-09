@@ -9,7 +9,7 @@ import (
 var logger *log.Logger
 var file *os.File
 
-func Write(file_name string, logs string, discript string, other string) {
+func Write(file_name string, logs string, discript string, other interface{}) {
 	_, err := os.Stat("log")
 	if err != nil {
 		os.Mkdir("./log", os.ModePerm)
