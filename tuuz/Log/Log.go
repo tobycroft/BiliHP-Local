@@ -9,13 +9,18 @@ import (
 var logger *log.Logger
 var file *os.File
 
-func Write(file_name string, logs string, discript string, other interface{}) {
-	file, err := os.OpenFile("log/"+file_name+".log", os.O_APPEND|os.O_CREATE, 666)
+func Write(file_name string, logs string, discript string, other string) {
+	_, err := os.Stat("log")
 	if err != nil {
-		log.Fatalln("fail to create log/" + file_name + ".log file!")
+		os.Mkdir("./log", os.ModePerm)
+	}
+	file, err := os.OpenFile("log/"+file_name+".log", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 777)
+	if err != nil {
+		log.Fatalln(err)
 	} else {
-		logger = log.New(file, "", log.LstdFlags)
+		logger := log.New(file, "", log.LstdFlags)
 		logger.Println(logs, discript, other)
+		file.Close()
 	}
 }
 
