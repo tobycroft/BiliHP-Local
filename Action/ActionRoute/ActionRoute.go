@@ -328,11 +328,7 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 						} else {
 							for word := range bws {
 								if strings.Contains(Calc.Any2String(obj["award_name"]), Calc.Any2String(word)) {
-									ecam2(conn, "", "天选时刻-屏蔽词礼物不领取"+Calc.Any2String(obj["award_name"]), "")
-									return
-								}
-								if strings.Contains(Calc.Any2String(word), Calc.Any2String(obj["award_name"])) {
-									ecam2(conn, "", "天选时刻-屏蔽词礼物不领取"+Calc.Any2String(obj["award_name"]), "")
+									ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与"+Calc.Any2String(word)+"匹配，不参与", "")
 									return
 								}
 							}
