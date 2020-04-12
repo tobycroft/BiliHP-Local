@@ -332,6 +332,7 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 					for _, word := range bws {
 						if strings.Contains(Calc.Any2String(obj["award_name"]), word) && len(word) > 1 {
 							cont = false
+							fmt.Println("设定屏蔽词：", bws)
 							ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与("+word+")匹配，不参与", "")
 							break
 						}
