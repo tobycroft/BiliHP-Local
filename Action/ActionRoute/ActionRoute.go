@@ -327,8 +327,8 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 						if ess != nil {
 
 						} else {
-							for word := range bws {
-								if strings.Contains(Calc.Any2String(obj["award_name"]), Calc.Any2String(word)) {
+							for _, word := range bws {
+								if strings.Contains(Calc.Any2String(obj["award_name"]), word) {
 									cont = false
 									ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与"+Calc.Any2String(word)+"匹配，不参与", "")
 									break
