@@ -323,17 +323,21 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 						bw := Conf.LoadConf("setting", "ban_words")
 						bws := strings.Split(bw, ",")
 						obj, ess := Jsong.ParseObject(jobject["object"])
+						cont := true
 						if ess != nil {
 
 						} else {
 							for word := range bws {
 								if strings.Contains(Calc.Any2String(obj["award_name"]), Calc.Any2String(word)) {
+									cont = false
 									ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与"+Calc.Any2String(word)+"匹配，不参与", "")
-									return
+									break
 								}
 							}
 						}
-						go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
+						if cont {
+							go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
+						}
 					} else {
 						ecam2(conn, "", "天选时刻-领取被关闭", "")
 					}
@@ -442,7 +446,6 @@ func ActionRoute(json *string, username string, conn *net.TCPConn) {
 }
 
 func Gift_check(Time string) (bool, string) {
-	return true, "PC版此功能我暫時沒辦法做"
 	timing := time.Now().Hour()
 	times, err := Jsong.JObject(Time)
 	if err != nil {
