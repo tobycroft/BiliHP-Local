@@ -330,9 +330,9 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 
 				} else {
 					for _, word := range bws {
-						if strings.Contains(Calc.Any2String(obj["award_name"]), word) {
+						if strings.Contains(Calc.Any2String(obj["award_name"]), word) && len(word) > 1 {
 							cont = false
-							ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与"+Calc.Any2String(word)+"匹配，不参与", "")
+							ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与'"+word+"'匹配，不参与", "")
 							break
 						}
 					}
