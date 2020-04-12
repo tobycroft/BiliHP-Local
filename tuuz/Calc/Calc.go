@@ -61,7 +61,7 @@ func Rand(min, max int) int {
 func Any2Int64(any interface{}) int64 {
 	ret, err := String2Int64(Any2String(any))
 	if err != nil {
-		return 99999998
+		return 0
 	}
 	return ret
 }
@@ -69,7 +69,7 @@ func Any2Int64(any interface{}) int64 {
 func Any2Float64(any interface{}) float64 {
 	ret, err := String2Float64(Any2String(any))
 	if err != nil {
-		return 99999998
+		return 0
 	}
 	return ret
 }
@@ -77,7 +77,7 @@ func Any2Float64(any interface{}) float64 {
 func Any2Int(any interface{}) int {
 	ret, err := String2Int(Any2String(any))
 	if err != nil {
-		return 99999998
+		return 0
 	}
 	return ret
 }
