@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"main.go/Action/ActionRoute"
 	"main.go/Conf"
+	"main.go/tuuz/Jsong"
 	"main.go/tuuz/RET"
 	"net"
 	"os"
@@ -115,8 +116,15 @@ func Handler(username string, token string) {
 			return
 		}
 		temp += string(buf[:n])
+		jsons, err := Jsong.TCPJObject(&temp)
+		if err != nil {
+			fmt.Println("err:", err)
+		} else {
+			for _, jobject := range jsons {
+				go ActionRoute.ActionRoute(jobject, username, Conn[username])
+			}
+		}
 
-		ActionRoute.ActionRoute(&temp, username, Conn[username])
 	}
 
 }
