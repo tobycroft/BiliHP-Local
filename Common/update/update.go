@@ -7,7 +7,7 @@ import (
 	"runtime"
 )
 
-func doUpdate() error {
+func DoUpdate() error {
 	resp, err := http.Get("http://pandorabox.tuuz.cc:8000/app/" + version())
 	if err != nil {
 		return err
