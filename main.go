@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/inconshreveable/go-update"
 	"html/template"
 	"main.go/Conf"
 	"main.go/Tcp"
@@ -11,7 +10,6 @@ import (
 	"main.go/tuuz/Net"
 	"net/http"
 	"os/exec"
-	"runtime"
 )
 
 func main() {
@@ -287,59 +285,4 @@ func setting_set(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(rrr))
 	//}
 
-}
-
-func doUpdate() error {
-	resp, err := http.Get("http://pandorabox.tuuz.cc:8000/app/" + version())
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-	err = update.Apply(resp.Body, update.Options{})
-	if err != nil {
-		fmt.Println("自动更新错误：", err)
-		// error handling
-	}
-	return err
-}
-
-func version() string {
-	switch runtime.GOOS {
-	case "windows":
-		switch runtime.GOARCH {
-		case "amd64":
-			return "c2c_win64.exe"
-
-		default:
-			return "c2c_win32.exe"
-		}
-
-	case "linux":
-		switch runtime.GOARCH {
-		case "amd64":
-			return "c2c_linux"
-
-		case "386":
-			return "c2c_32_linux"
-
-		case "mipsle":
-			return "c2c_router_linux"
-
-		case "arm", "arm64":
-			return "c2c_arm_linux"
-
-		case "mips":
-			return "c2c_mips_linux"
-
-		default:
-			return "c2c_win64.exe"
-		}
-
-	case "darwin":
-		return "c2c_mac_darwin"
-
-	default:
-		fmt.Println("没有找到对应的版本")
-		return "c2c_linux"
-	}
 }
