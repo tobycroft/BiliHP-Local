@@ -8,6 +8,7 @@ import (
 )
 
 func DoUpdate() error {
+	fmt.Println("----自动升级开始----")
 	resp, err := http.Get("http://pandorabox.tuuz.cc:8000/app/" + version())
 	if err != nil {
 		return err
@@ -18,6 +19,7 @@ func DoUpdate() error {
 		fmt.Println("自动更新错误：", err)
 		// error handling
 	}
+	fmt.Println("----自动升级结束，请重启应用----")
 	return err
 }
 
