@@ -2,13 +2,13 @@ package ActionRoute
 
 import (
 	"fmt"
+	"main.go/Common/update"
 	"main.go/Conf"
 	"main.go/tuuz/Calc"
 	"main.go/tuuz/Jsong"
 	"main.go/tuuz/RET"
 	"net"
 	"os"
-	"os/exec"
 	"strings"
 	"time"
 )
@@ -60,19 +60,21 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 
 	case "update":
 		ecam2(conn, "", echo, "")
+		update.DoUpdate()
 		break
 
 	case "force_update":
 		fmt.Println(echo)
-		if Conf.SystemType() == "windows" {
-			exec.Command(`cmd`, `/c`, `start`, Calc.Any2String(ret)).Start()
-		}
-		if Conf.SystemType() == "linux" {
-			fmt.Println("请执行:" + Calc.Any2String(ret))
-			fmt.Println("------------------START------------------")
-			fmt.Println("wget " + Calc.Any2String(ret))
-			fmt.Println("------------------END------------------")
-		}
+		//if Conf.SystemType() == "windows" {
+		//	exec.Command(`cmd`, `/c`, `start`, Calc.Any2String(ret)).Start()
+		//}
+		//if Conf.SystemType() == "linux" {
+		//	fmt.Println("请执行:" + Calc.Any2String(ret))
+		//	fmt.Println("------------------START------------------")
+		//	fmt.Println("wget " + Calc.Any2String(ret))
+		//	fmt.Println("------------------END------------------")
+		//}
+		update.DoUpdate()
 		os.Exit(1)
 		break
 
