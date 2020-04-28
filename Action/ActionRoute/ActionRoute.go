@@ -349,6 +349,73 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 		}
 		break
 
+	case "box":
+		rets, err := Jsong.ParseObject(ret)
+		if err != nil {
+			fmt.Println("CURL信息不正确")
+		} else {
+			var header, err2 = Jsong.ParseObject(rets["header"])
+			if err2 != nil {
+				ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err2, "")
+				break
+			}
+			var values, err3 = Jsong.ParseObject(rets["values"])
+			if err3 != nil {
+				ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err3, "")
+				break
+			}
+			var cookie, err4 = Jsong.ParseObject(rets["cookie"])
+			if err4 != nil {
+				ecam2(conn, "[BiliHP-LOCAL-ERROR]:", err4, "")
+				break
+			}
+			var url = Calc.Any2String(rets["url"])
+			var method = Calc.Any2String(rets["method"])
+			var route = Calc.Any2String(rets["route"])
+			var typ = Calc.Any2String(rets["type"])
+			var delay = Calc.Any2Float64(rets["delay"])
+
+			ecam2(conn, "", echo, "")
+
+			if Conf.LoadConf("setting", "box") == "1" {
+				Time := Conf.LoadConf("setting", "time")
+				ok, reason := Gift_check(Time)
+				if !ok {
+					ecam2(conn, "", "[BiliHP-Security]+"+reason, "")
+					break
+				}
+				Percent := Conf.LoadConf("setting", "percent")
+				ok2, reason2 := Gift_ratio(Calc.Any2Int(Percent))
+				if !ok2 {
+					ecam2(conn, "", "[BiliHP-Security]+"+reason2, "")
+					break
+				}
+				bw := Conf.LoadConf("setting", "ban_words")
+				bws := strings.Split(bw, ",")
+				obj, ess := Jsong.ParseObject(jobject["object"])
+				cont := true
+				if ess != nil {
+
+				} else {
+					for _, word := range bws {
+						if strings.Contains(Calc.Any2String(obj["title"]), word) && len(word) > 1 {
+							cont = false
+							fmt.Println("设定屏蔽词：", bws)
+							ecam2(conn, "", "活动抽奖-奖品"+Calc.Any2String(obj["award_name"])+"与("+word+")匹配，不参与", "")
+							break
+						}
+					}
+				}
+				if cont {
+					go Curl(url, method, values, header, cookie, typ, echo, *conn, route, delay)
+				}
+
+			} else {
+				ecam2(conn, "", "活动抽奖-领取被关闭", "")
+			}
+		}
+		break
+
 	case "pk":
 		rets, err := Jsong.ParseObject(ret)
 		if err != nil {
