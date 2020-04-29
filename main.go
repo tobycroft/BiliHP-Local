@@ -101,7 +101,7 @@ func logproc(w http.ResponseWriter, request *http.Request) {
 	pm["password"] = password
 	pm["captcha"] = captcha
 	req := Net.Request()
-	ret, err := req.Post("http://go.bilihp.com:180/v1/index/login/2", pm)
+	ret, err := req.Post("http://go.bilihp.com:180/v1/index/login/3", pm)
 	if err != nil {
 		return
 	}
