@@ -86,20 +86,10 @@ func captcha(w http.ResponseWriter, request *http.Request) {
 func logproc(w http.ResponseWriter, request *http.Request) {
 	username := request.PostFormValue("username")
 	password := request.PostFormValue("password")
-	captcha := request.PostFormValue("captcha")
-	if len(captcha) < 4 {
-		ret := make(map[string]interface{})
-		ret["code"] = 400
-		ret["data"] = "验证码不能为空"
-		rrr, _ := Jsong.Encode(ret)
-		w.Write([]byte(rrr))
-		return
-	}
 
 	pm := make(map[string]interface{})
 	pm["username"] = username
 	pm["password"] = password
-	pm["captcha"] = captcha
 	req := Net.Request()
 	ret, err := req.Post("http://go.bilihp.com:180/v1/index/login/3", pm)
 	if err != nil {

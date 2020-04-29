@@ -108,10 +108,9 @@
                         "username": this.username,
                         "password": this.password,
                     },
-                    dataType:"json",
+                    dataType: "json",
                     //请求成功
                     success: function (ret) {
-
                         if (ret.code == 0) {
                             alert(ret.data.message);
                             $.ajax({
@@ -129,11 +128,11 @@
                                     window.location = "/";
                                 }
                             });
+                        } else if (ret.code == -105) {
+                            window.open("http://app.bilihp.com:81/geetest.html" + ret.data.substring(ret.data.indexOf("?"), ret.data.length) + "&username=" + vm.username, "_blank");
                         } else if (ret.code == 201) {
-                            vm.refresh_pic()
                             window.location = ret.data.url
                         } else {
-                            vm.refresh_pic();
                             alert(ret.data);
                         }
                     },
