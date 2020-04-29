@@ -56,14 +56,10 @@
             <div class="title"></div>
             <div class="inputLi">
                 <input type="text" class="user" autofocus="autofocus" title="账户" placeholder="请输入账户" required=""
-                       v-model="username" @blur="username_ready()">
+                       v-model="username">
             </div>
             <div class="inputLi">
                 <input type="password" class="pwd" title="密码" placeholder="请输入密码" required="" v-model="password">
-            </div>
-            <div class="inputLi">
-                <input type="text" class="code" title="验证码" placeholder="请输入验证码" required="" v-model="captcha">
-                <img :src="cimg" class="codeImg" @click="refresh_pic()">
             </div>
 
             <div class="button-group">
@@ -91,22 +87,12 @@
             cimg: "",
             username: "",
             password: "",
-            captcha: ""
         },
         created: function () {
 
 
         },
         methods: {
-            username_ready() {
-                if (this.username.length > 6) {
-
-                    this.cimg = "/captcha?username=" + this.username + "&rand=" + Math.random()
-
-                } else {
-
-                }
-            },
             refresh_pic() {
                 // alert("验证码已经刷新");
                 this.username_ready();
@@ -121,7 +107,6 @@
                     data: {
                         "username": this.username,
                         "password": this.password,
-                        "captcha": this.captcha,
                     },
                     dataType:"json",
                     //请求成功
