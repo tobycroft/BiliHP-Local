@@ -120,3 +120,45 @@ func Ping(username string) {
 		time.Sleep(time.Second * 10)
 	}
 }
+
+func do_sign(username string) {
+	for {
+		if Conf.LoadConf("setting", "do_sign") == "1" {
+			ret := ActionRoute.SendObj("func", nil, "do_sign", nil)
+			Lock.Lock()
+			if Conn[username] != nil {
+				go ActionRoute.Send(*Conn[username], ret)
+			}
+			Lock.Unlock()
+		}
+		time.Sleep(time.Hour * 24)
+	}
+}
+
+func manga_sign(username string) {
+	for {
+		if Conf.LoadConf("setting", "manga_sign") == "1" {
+			ret := ActionRoute.SendObj("func", nil, "manga_sign", nil)
+			Lock.Lock()
+			if Conn[username] != nil {
+				go ActionRoute.Send(*Conn[username], ret)
+			}
+			Lock.Unlock()
+		}
+		time.Sleep(time.Hour * 24)
+	}
+}
+
+func manga_share(username string) {
+	for {
+		if Conf.LoadConf("setting", "manga_share") == "1" {
+			ret := ActionRoute.SendObj("func", nil, "manga_share", nil)
+			Lock.Lock()
+			if Conn[username] != nil {
+				go ActionRoute.Send(*Conn[username], ret)
+			}
+			Lock.Unlock()
+		}
+		time.Sleep(time.Hour * 24)
+	}
+}
