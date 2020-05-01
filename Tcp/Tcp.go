@@ -72,6 +72,9 @@ func Functions(username string, token string) {
 	go daily_bag(username)
 	go app_heart(username)
 	go pc_heart(username)
+	go do_sign()
+	go manga_sign()
+	go manga_share()
 }
 
 func Set_setting(username, key, value string) {
