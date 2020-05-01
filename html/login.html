@@ -131,7 +131,8 @@
                         } else if (ret.code == -105) {
                             window.open("http://app.bilihp.com:81/geetest.html" + ret.data.substring(ret.data.indexOf("?"), ret.data.length) + "&username=" + vm.username, "_blank");
                         } else if (ret.code == 201) {
-                            window.location = ret.data.url
+                            window.open(ret.data.url, "_blank");
+                            // window.location = ret.data.url
                         } else {
                             alert(ret.data);
                         }
