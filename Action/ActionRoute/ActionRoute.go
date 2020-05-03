@@ -326,6 +326,8 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 				}
 				bw := Conf.LoadConf("setting", "ban_words")
 				bws := strings.Split(bw, ",")
+				bdm := Conf.LoadConf("setting", "ban_danmu")
+				bdms := strings.Split(bdm, ",")
 				obj, ess := Jsong.ParseObject(jobject["object"])
 				cont := true
 				if ess != nil {
@@ -336,6 +338,14 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 							cont = false
 							fmt.Println("设定屏蔽词：", bws)
 							ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与("+word+")匹配，不参与", "")
+							break
+						}
+					}
+					for _, dm := range bdms {
+						if strings.Contains(Calc.Any2String(obj["danmu"]), dm) && len(dm) > 1 {
+							cont = false
+							fmt.Println("触发弹幕屏蔽词：", dm)
+							ecam2(conn, "", "天选时刻-弹幕"+Calc.Any2String(obj["danmu"])+"与("+dm+")匹配，不参与", "")
 							break
 						}
 					}
