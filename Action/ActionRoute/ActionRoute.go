@@ -330,6 +330,8 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 				bdms := strings.Split(bdm, ",")
 				wdm := Conf.LoadConf("setting", "white_words")
 				wdms := strings.Split(wdm, ",")
+				mr := Conf.LoadConf("setting", "medal_room")
+				mrs := strings.Split(mr, ",")
 				obj, ess := Jsong.ParseObject(jobject["object"])
 				cont := true
 				if ess != nil {
@@ -364,6 +366,17 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 								fmt.Println("触发天选白名单：", bws)
 								ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与("+word+")匹配，正常参与", "")
 								break
+							}
+						}
+					}
+					if cont && Calc.Any2String(obj["need_medal"]) == "1" {
+						for _, word := range mrs {
+							if strings.Contains(Calc.Any2String(obj["room_id"]), word) && len(word) > 1 {
+								cont = true
+								break
+							}
+							if !cont {
+								ecam2(conn, "", "你没有该主播抽奖所需的需要2级勋章，自动跳过", "")
 							}
 						}
 					}
