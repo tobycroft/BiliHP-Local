@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+	initial()
 	username := Conf.LoadConf("user", "username")
 	token := Conf.LoadConf("user", "token")
 
@@ -275,4 +276,11 @@ func setting_set(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(rrr))
 	//}
 
+}
+
+func initial() {
+	debug := Conf.LoadConf("debug", "debug")
+	if debug == "" {
+		Conf.SaveConf("debug", "debug", "true")
+	}
 }
