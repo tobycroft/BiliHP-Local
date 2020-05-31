@@ -328,6 +328,8 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 				bws := strings.Split(bw, ",")
 				bdm := Conf.LoadConf("setting", "ban_danmu")
 				bdms := strings.Split(bdm, ",")
+				wdm := Conf.LoadConf("setting", "white_words")
+				wdms := strings.Split(wdm, ",")
 				obj, ess := Jsong.ParseObject(jobject["object"])
 				cont := true
 				if ess != nil {
@@ -347,6 +349,22 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 							fmt.Println("触发弹幕屏蔽词：", dm)
 							ecam2(conn, "", "天选时刻-弹幕"+Calc.Any2String(obj["danmu"])+"与("+dm+")匹配，不参与", "")
 							break
+						}
+					}
+					if Conf.LoadConf("setting", "blacklist_first") == "1" {
+						if !cont {
+							break
+						}
+					}
+					if Conf.LoadConf("setting", "use_white") == "1" {
+						for _, word := range wdms {
+							cont = false
+							if strings.Contains(Calc.Any2String(obj["award_name"]), word) && len(word) > 1 {
+								cont = true
+								fmt.Println("触发天选屏蔽词：", bws)
+								ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与("+word+")匹配，不参与", "")
+								break
+							}
 						}
 					}
 				}
