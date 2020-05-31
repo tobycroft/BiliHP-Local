@@ -361,8 +361,8 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 							cont = false
 							if strings.Contains(Calc.Any2String(obj["award_name"]), word) && len(word) > 1 {
 								cont = true
-								fmt.Println("触发天选屏蔽词：", bws)
-								ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与("+word+")匹配，不参与", "")
+								fmt.Println("触发天选白名单：", bws)
+								ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与("+word+")匹配，自动正常参与", "")
 								break
 							}
 						}
