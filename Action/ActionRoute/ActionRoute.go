@@ -332,25 +332,39 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 				wdms := strings.Split(wdm, ",")
 				mr := Conf.LoadConf("setting", "medal_room")
 				mrs := strings.Split(mr, ",")
+				br := Conf.LoadConf("setting", "ban_room")
+				brs := strings.Split(br, ",")
 				obj, ess := Jsong.ParseObject(jobject["object"])
 				cont := true
 				if ess != nil {
 
 				} else {
-					for _, word := range bws {
-						if strings.Contains(Calc.Any2String(obj["award_name"]), word) && len(word) > 1 {
+					for _, word := range brs {
+						if strings.Contains(Calc.Any2String(obj["room_id"]), word) && len(word) > 1 {
 							cont = false
-							fmt.Println("设定屏蔽词：", bws)
-							ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与("+word+")匹配，不参与", "")
+							fmt.Println("触发天选屏蔽房间：", bws)
+							ecam2(conn, "", "天选时刻-房间号"+Calc.Any2String(obj["room_id"])+"在屏蔽房间("+word+")中，不参与", "")
 							break
 						}
 					}
-					for _, dm := range bdms {
-						if strings.Contains(Calc.Any2String(obj["danmu"]), dm) && len(dm) > 1 {
-							cont = false
-							fmt.Println("触发弹幕屏蔽词：", dm)
-							ecam2(conn, "", "天选时刻-弹幕"+Calc.Any2String(obj["danmu"])+"与("+dm+")匹配，不参与", "")
-							break
+					if cont {
+						for _, word := range bws {
+							if strings.Contains(Calc.Any2String(obj["award_name"]), word) && len(word) > 1 {
+								cont = false
+								fmt.Println("设定屏蔽词：", bws)
+								ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与("+word+")匹配，不参与", "")
+								break
+							}
+						}
+					}
+					if cont {
+						for _, dm := range bdms {
+							if strings.Contains(Calc.Any2String(obj["danmu"]), dm) && len(dm) > 1 {
+								cont = false
+								fmt.Println("触发弹幕屏蔽词：", dm)
+								ecam2(conn, "", "天选时刻-弹幕"+Calc.Any2String(obj["danmu"])+"与("+dm+")匹配，不参与", "")
+								break
+							}
 						}
 					}
 					if Conf.LoadConf("setting", "blacklist_first") == "1" {
