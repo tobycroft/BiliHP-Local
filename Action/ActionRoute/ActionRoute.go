@@ -384,6 +384,7 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 						}
 					}
 					if cont && Calc.Any2String(obj["need_medal"]) == "1" {
+						cont = false
 						for _, word := range mrs {
 							if strings.Contains(Calc.Any2String(obj["room_id"]), word) && len(word) > 1 {
 								cont = true
