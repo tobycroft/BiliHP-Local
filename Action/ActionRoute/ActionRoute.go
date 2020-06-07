@@ -340,7 +340,7 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 
 				} else {
 					for _, word := range brs {
-						if strings.Contains(Calc.Any2String(obj["room_id"]), word) && len(word) > 1 {
+						if Calc.Any2String(obj["room_id"]) == word && len(word) > 1 {
 							cont = false
 							fmt.Println("触发天选屏蔽房间：", bws)
 							ecam2(conn, "", "天选时刻-房间号"+Calc.Any2String(obj["room_id"])+"在屏蔽房间("+word+")中，不参与", "")
@@ -349,7 +349,7 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 					}
 					if cont {
 						for _, word := range bws {
-							if strings.Contains(Calc.Any2String(obj["award_name"]), word) && len(word) > 1 {
+							if strings.Contains(strings.ToLower(Calc.Any2String(obj["award_name"])), strings.ToLower(word)) && len(word) > 1 {
 								cont = false
 								fmt.Println("设定屏蔽词：", bws)
 								ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与("+word+")匹配，不参与", "")
@@ -359,7 +359,7 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 					}
 					if cont {
 						for _, dm := range bdms {
-							if strings.Contains(Calc.Any2String(obj["danmu"]), dm) && len(dm) > 1 {
+							if strings.Contains(strings.ToLower(Calc.Any2String(obj["danmu"])), strings.ToLower(dm)) && len(dm) > 1 {
 								cont = false
 								fmt.Println("触发弹幕屏蔽词：", dm)
 								ecam2(conn, "", "天选时刻-弹幕"+Calc.Any2String(obj["danmu"])+"与("+dm+")匹配，不参与", "")
@@ -375,7 +375,7 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 					if Conf.LoadConf("setting", "use_white") == "1" {
 						for _, word := range wdms {
 							cont = false
-							if strings.Contains(Calc.Any2String(obj["award_name"]), word) && len(word) > 1 {
+							if strings.Contains(strings.ToLower(Calc.Any2String(obj["award_name"])), strings.ToLower(word)) && len(word) > 1 {
 								cont = true
 								fmt.Println("触发天选白名单：", bws)
 								ecam2(conn, "", "天选时刻-奖品"+Calc.Any2String(obj["award_name"])+"与("+word+")匹配，正常参与", "")
@@ -386,7 +386,7 @@ func ActionRoute(jobject map[string]interface{}, username string, conn *net.TCPC
 					if cont && Calc.Any2String(obj["need_medal"]) == "1" {
 						cont = false
 						for _, word := range mrs {
-							if strings.Contains(Calc.Any2String(obj["room_id"]), word) && len(word) > 1 {
+							if Calc.Any2String(obj["room_id"]) == word && len(word) > 1 {
 								cont = true
 								break
 							}
